@@ -115,7 +115,7 @@ install:'تثبيته على أندرويد',instTx:'افتح اللينك في 
 foodLog:'أكل النهارده',addFood:'ضيف أكل',meal:'الوجبة',bf:'فطار',lu:'غدا',di:'عشا',sn:'سناك',serv:'الحصة',add:'ضيف',
 cat:'النوع',eg:'مصري',gulf:'خليجي/عربي',basic:'أساسيات',mine:'أكلاتي',custom:'ضيف أكلة من عندك',name:'الاسم',per:'لكل حصة',saveF:'حفظ الأكلة',
 sample:'يوم أكل نموذجي (مصري/خليجي)',scale:'عشان توصل لهدفك اضرب الكميات في',est:'القيم تقديرية لكل حصة، وبتفرق حسب طريقة الطبخ والزيت.',
-nTips:'قواعد الأكل الذهبية',empty:'لسه مضفتش أكل النهارده.',prev:'‹',nextD:'›',copied:'اتنسخ ✓',saved:'اتحفظ ✓',added:'اتضاف ✓',
+nTips:'قواعد الأكل الذهبية',empty:'لسه مضفتش أكل النهارده.',working:'العضلة الشغالة',prev:'‹',nextD:'›',copied:'اتنسخ ✓',saved:'اتحفظ ✓',added:'اتضاف ✓',
 weekly:'نصيحة: ابدأ ببرنامج المبتدئ ٨–١٢ أسبوع حتى لو رفعت قبل كده، وركّز على التكنيك.',days:'أيام'},
 en:{home:'Home',programs:'Programs',exercises:'Exercises',food:'Nutrition',profile:'Me',
 hello:"Let's go 💪",nextW:'Your next workout',startW:'Open workout',doneW:'Workout done ✓',weekW:'Workouts this week',
@@ -139,7 +139,7 @@ install:'Install on Android',instTx:'Open the link in Chrome → tap ⋮ → "Ad
 foodLog:"Today's food",addFood:'Add food',meal:'Meal',bf:'Breakfast',lu:'Lunch',di:'Dinner',sn:'Snack',serv:'Serving',add:'Add',
 cat:'Type',eg:'Egyptian',gulf:'Gulf/Arabic',basic:'Basics',mine:'My foods',custom:'Add your own food',name:'Name',per:'per serving',saveF:'Save food',
 sample:'Sample day (Egyptian/Gulf)',scale:'To hit your target, multiply portions by',est:'Values are estimates per serving and vary with cooking method and oil.',
-nTips:'Golden nutrition rules',empty:'No food logged today yet.',prev:'‹',nextD:'›',copied:'Copied ✓',saved:'Saved ✓',added:'Added ✓',
+nTips:'Golden nutrition rules',empty:'No food logged today yet.',working:'working muscle',prev:'‹',nextD:'›',copied:'Copied ✓',saved:'Saved ✓',added:'Added ✓',
 weekly:'Tip: run the beginner program for 8–12 weeks even if you have lifted before, and focus on technique.',days:'days'}
 };
 const t=k=>(T[S.lang]||T.ar)[k]??k;
@@ -194,13 +194,13 @@ const EX=[
  a:B(['الكوع بزاوية ٤٥–٧٠° من الجسم (مش ٩٠° مفتوح على الآخر).','تحت: الساعد عمودي على الأرض.','البار ينزل على خط الحلمة أو تحته شوية.'],['Elbows at 45–70° from your torso (not flared to 90°).','Bottom: forearms vertical.','Bar touches at nipple line or slightly below.']),
  x:B(['الكوع مفتوح ٩٠° (بيضغط على الكتف).','تنطيط البار على الصدر.','الحوض يترفع من البنش.'],['Elbows flared to 90° (stresses the shoulder).','Bouncing the bar off your chest.','Butt lifting off the bench.']),
  p:B(['استخدم Spotter أو Safety bars دايماً في الأوزان التقيلة.','وقفة ثانية على الصدر (Paused) بتقوّي البداية.'],['Always use a spotter or safety bars when going heavy.','A 1-second pause on the chest builds strength off the bottom.']),
- pose:{A:{a:[48,185],h:[100,130],t:90,kb:'u',hd:[160,68]},B:{a:[48,185],h:[100,130],t:90,kb:'u',hd:[150,102],eb:'d'},show:['knee'],eq:{bar:'hand',bench:[86,138,176,138]}}},
+ pose:{A:{a:[48,185],h:[100,130],t:90,kb:'u',hd:[160,68]},B:{a:[48,185],h:[100,130],t:90,kb:'u',hd:[150,102],eb:'d'},sup:1,show:['knee'],eq:{bar:'hand',bench:[86,138,176,138]}}},
 {id:'incline',g:'chest',q:'incline dumbbell press form',n:B('إنكلاين دمبل برس','Incline Dumbbell Press'),m:B('الصدر العلوي، الكتف الأمامي، الترايسبس','Upper chest, front delts, triceps'),
  s:B(['البنش على ٣٠° (مش ٤٥° — دي بتشغّل الكتف أكتر).','الدمبل على ركبتك وارجع بيهم لورا.','نزّل الدمبل لحد جنب الصدر العلوي.','ازق لفوق وقرّبهم من بعض من غير ما يخبطوا.'],['Set the bench to 30° (45° hits the shoulders more).','Kick the dumbbells up from your knees as you lie back.','Lower to the sides of your upper chest.','Press up and bring them together without clanking.']),
  a:B(['زاوية البنش ١٥–٣٠°.','الكوع ٤٥–٦٠° من الجسم.','تحت: الدمبل في مستوى الصدر عشان مط كامل.'],['Bench angle 15–30°.','Elbows 45–60° from your torso.','Bottom: dumbbells at chest level for a full stretch.']),
  x:B(['بنش عالي أوي.','نص مدى.'],['Bench too steep.','Half range.']),
  p:B(['الدمبل بيدّي مدى أكبر من البار — ممتاز للتضخيم.'],['Dumbbells allow a deeper range than the bar — great for growth.']),
- pose:{A:{a:[58,185],h:[96,142],t:60,kb:'u',hd:[148,52]},B:{a:[58,185],h:[96,142],t:60,kb:'u',hd:[127,92],eb:'d'},show:[],eq:{db:1,bench:[92,152,150,120]}}},
+ pose:{A:{a:[58,185],h:[96,142],t:60,kb:'u',hd:[148,52]},B:{a:[58,185],h:[96,142],t:60,kb:'u',hd:[127,92],eb:'d'},sup:1,show:[],eq:{db:1,bench:[92,152,150,120]}}},
 {id:'pushup',g:'chest',q:'push up proper form',n:B('ضغط (Push-up)','Push-up'),m:B('الصدر، الترايسبس، الكتف، الكور','Chest, triceps, shoulders, core'),
  s:B(['الإيدين أوسع من الكتف شوية.','الجسم خط مستقيم من الراس للكعب، والبطن مشدودة.','انزل لحد ما الصدر يقرب من الأرض.','ازق لفوق للآخر.'],['Hands slightly wider than shoulders.','Body in a straight line head to heels, abs tight.','Lower until your chest nearly touches the floor.','Push all the way up.']),
  a:B(['الحوض ١٨٠° (خط مستقيم) — مش طالع ولا نازل.','الكوع ٤٥° تقريباً من الجسم (شكل سهم ↑ مش T).','تحت: الكوع ≈ ٩٠° أو أقل.'],['Hips at 180° (straight line) — no sagging or piking.','Elbows ~45° from your body (arrow shape, not a T).','Bottom: elbows ≈ 90° or less.']),
@@ -332,25 +332,61 @@ function arc(j,a,b,r,lbl){
 }
 function ln(a,b,w,c){return `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`}
 function plate(p){return `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="20" fill="#2b313d" stroke="#55607a" stroke-width="2"/><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#8a93a3"/>`}
+
+/* ---- human figure ---- */
+const SK='#d9a77c',SKD='#a97d58',SHIRT='#2f6fed',SHIRTD='#2559c4',SHORTS='#465066',SHOE='#0b0c10',HAIR='#2a1d14',HLC='#ff3b3b';
+const HL={squat:['thigh','glute'],rdl:['thigh','glute'],deadlift:['thigh','glute','back'],lunge:['thigh','glute'],hipthrust:['glute','thigh'],legext:['thigh'],calf:['shin'],
+ bench:['chest','ua'],incline:['chest','shoulder'],pushup:['chest','ua'],dips:['chest','ua'],pullup:['back','ua'],row:['back','shoulder'],cablerow:['back','ua'],
+ facepull:['shoulder'],ohp:['shoulder','ua'],curl:['ua'],hammer:['ua','fa'],pushdown:['ua'],plank:['abs'],kneeraise:['abs','thigh']};
+const f1=v=>v.toFixed(1);
+function cap(a,b,ra,rb,fill,op){const dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1,px=-dy/l,py=dx/l;
+ return `<g fill="${fill}"${op!=null?` opacity="${op.toFixed(2)}"`:''}><path d="M${f1(a[0]+px*ra)},${f1(a[1]+py*ra)} L${f1(b[0]+px*rb)},${f1(b[1]+py*rb)} L${f1(b[0]-px*rb)},${f1(b[1]-py*rb)} L${f1(a[0]-px*ra)},${f1(a[1]-py*ra)}Z"/><circle cx="${f1(a[0])}" cy="${f1(a[1])}" r="${ra}"/><circle cx="${f1(b[0])}" cy="${f1(b[1])}" r="${rb}"/></g>`}
+const mixp=(a,b,k)=>[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k];
+function ell(c,rx,ry,deg,op){return `<ellipse cx="${f1(c[0])}" cy="${f1(c[1])}" rx="${rx}" ry="${ry}" transform="rotate(${f1(deg)} ${f1(c[0])} ${f1(c[1])})" fill="${HLC}" opacity="${op.toFixed(2)}"/>`}
+function poly(pts,fill){return `<path d="M${pts.map(p=>f1(p[0])+','+f1(p[1])).join(' L')}Z" fill="${fill}" stroke="${fill}" stroke-width="5" stroke-linejoin="round"/>`}
+function person(o,hl,k,sup){
+  const td=dirv(o.t),sg=sup?-1:1,n=[-td[1]*sg,td[0]*sg],P=(b,a,c)=>[b[0]+td[0]*a+n[0]*c,b[1]+td[1]*a+n[1]*c];
+  const L=LEN.torso,op=0.28+0.5*k,has=x=>hl.includes(x),deg=Math.atan2(td[1],td[0])*180/Math.PI;
+  let s='';
+  if(o.knee2)s+=cap(o.knee2,o.ank2,6,4,SKD)+cap(o.hip,o.knee2,8.2,6,SKD)+cap(o.hip,mixp(o.hip,o.knee2,.55),9.3,8,'#353d4f')+cap(o.ank2,o.toe2,4.4,3.6,SHOE);
+  // near leg
+  s+=cap(o.knee,o.ank,6.4,4.2,SK);if(has('shin'))s+=cap(mixp(o.knee,o.ank,.1),mixp(o.knee,o.ank,.7),6,4.5,HLC,op);
+  s+=cap(o.hip,o.knee,8.6,6.3,SK);if(has('thigh'))s+=cap(mixp(o.hip,o.knee,.5),mixp(o.hip,o.knee,.92),7.6,5.6,HLC,op);
+  s+=cap(o.hip,mixp(o.hip,o.knee,.55),9.6,8.2,SHORTS);
+  s+=cap(o.ank,o.toe,4.6,3.8,SHOE);
+  // torso
+  s+=poly([P(o.hip,-1,-9),P(o.hip,-1,8),P(o.hip,L*.42,7.5),P(o.hip,L*.76,11),P(o.sh,3,8),P(o.sh,5,-5),P(o.hip,L*.55,-9.5)],SHIRT);
+  s+=poly([P(o.hip,-3,-10),P(o.hip,-3,9),P(o.hip,7,8.5),P(o.hip,7,-10)],SHORTS);
+  if(has('chest'))s+=ell(P(o.hip,L*.74,6.5),9,5,deg,op);
+  if(has('abs'))s+=ell(P(o.hip,L*.36,4.5),10,4.2,deg,op);
+  if(has('back'))s+=ell(P(o.hip,L*.62,-5),14,5,deg,op);
+  if(has('glute'))s+=ell(P(o.hip,2,-4.5),7,6,deg,op);
+  // neck + head
+  s+=cap(o.sh,P(o.sh,8,1.5),4.6,4.2,SK);
+  const hc=P(o.sh,17,2),hh=P(hc,1.6,-2),fc=P(hc,-.3,.9),ey=P(hc,1.4,6.2);
+  s+=`<circle cx="${f1(hh[0])}" cy="${f1(hh[1])}" r="10.2" fill="${HAIR}"/><circle cx="${f1(fc[0])}" cy="${f1(fc[1])}" r="9.2" fill="${SK}"/><circle cx="${f1(ey[0])}" cy="${f1(ey[1])}" r="1.2" fill="#1b1b1b"/>`;
+  // near arm
+  s+=cap(o.elb,o.hand,4.3,3.4,SK);if(has('fa'))s+=cap(mixp(o.elb,o.hand,.1),mixp(o.elb,o.hand,.6),4,3.3,HLC,op);
+  s+=cap(o.sh,o.elb,5.8,4.5,SK);if(has('ua'))s+=cap(mixp(o.sh,o.elb,.4),mixp(o.sh,o.elb,.9),5.2,4.2,HLC,op);
+  s+=cap(o.sh,mixp(o.sh,o.elb,.42),6.6,5.8,SHIRTD);
+  if(has('shoulder'))s+=`<circle cx="${f1(o.sh[0])}" cy="${f1(o.sh[1])}" r="7" fill="${HLC}" opacity="${op.toFixed(2)}"/>`;
+  s+=`<circle cx="${f1(o.hand[0])}" cy="${f1(o.hand[1])}" r="3.8" fill="${SK}"/>`;
+  return s;
+}
 function drawFig(ex,k,showAng){
-  const pose=ex.pose,o=poseAt(pose,k),eq=pose.eq||{},body='#e9ecf1',far='#6f7888';
+  const pose=ex.pose,o=poseAt(pose,k),eq=pose.eq||{};
   let s='';
   if(!pose.nofloor)s+=`<line x1="0" y1="187" x2="240" y2="187" stroke="#3a4150" stroke-width="2"/>`;
   if(eq.bench){const[b1,b2,b3,b4]=eq.bench;s+=ln([b1,b2],[b3,b4],9,'#3a4150');const mx=(b1+b3)/2,my=(b2+b4)/2;if(my<180)s+=ln([mx,my],[mx,187],5,'#3a4150')}
   if(eq.pull!=null)s+=ln([50,eq.pull],[190,eq.pull],5,'#55607a');
   if(eq.dip){s+=ln([eq.dip[0]-20,eq.dip[1]],[eq.dip[0]+20,eq.dip[1]],6,'#55607a')+ln([eq.dip[0]+16,eq.dip[1]],[eq.dip[0]+16,210],4,'#3a4150')}
   if(eq.cable)s+=`<line x1="${eq.cable[0]}" y1="${eq.cable[1]}" x2="${o.hand[0].toFixed(1)}" y2="${o.hand[1].toFixed(1)}" stroke="#7cd4ff" stroke-width="1.5" stroke-dasharray="4 3"/><circle cx="${eq.cable[0]}" cy="${eq.cable[1]}" r="5" fill="#55607a"/>`;
-  if(o.knee2)s+=ln(o.hip,o.knee2,9,far)+ln(o.knee2,o.ank2,8,far)+ln(o.ank2,o.toe2,6,far);
-  s+=ln(o.hip,o.knee,10,body)+ln(o.knee,o.ank,9,body)+ln(o.ank,o.toe,6,body);
-  s+=ln(o.hip,o.sh,13,body);
-  s+=`<circle cx="${o.head[0].toFixed(1)}" cy="${o.head[1].toFixed(1)}" r="10" fill="${body}"/>`;
-  s+=ln(o.sh,o.elb,7.5,body)+ln(o.elb,o.hand,6.5,body);
-  if(eq.bar==='hand')s+=plate(o.hand);
   if(eq.bar==='shoulder')s+=plate([o.sh[0]-3,o.sh[1]-3]);
+  s+=person(o,HL[ex.id]||[],k,pose.sup);
+  if(eq.bar==='hand')s+=plate(o.hand);
   if(eq.bar==='hip'){const td=dirv(o.t);s+=plate([o.hip[0]+(-td[1])*0-2,o.hip[1]-16])}
   if(eq.db)s+=`<rect x="${(o.hand[0]-9).toFixed(1)}" y="${(o.hand[1]-4).toFixed(1)}" width="18" height="8" rx="2" fill="#55607a"/><rect x="${(o.hand[0]-11).toFixed(1)}" y="${(o.hand[1]-7).toFixed(1)}" width="5" height="14" rx="2" fill="#8a93a3"/><rect x="${(o.hand[0]+6).toFixed(1)}" y="${(o.hand[1]-7).toFixed(1)}" width="5" height="14" rx="2" fill="#8a93a3"/>`;
   if(eq.pad)s+=`<circle cx="${o.ank[0].toFixed(1)}" cy="${(o.ank[1]-6).toFixed(1)}" r="6" fill="#55607a"/>`;
-  [o.hip,o.knee,o.sh,o.elb].forEach(p=>s+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#0f1115"/>`);
   if(showAng)(pose.show||[]).forEach(j=>{
     let v;
     if(j==='knee')v=[o.knee,o.hip,o.ank];else if(j==='hip')v=[o.hip,o.knee,o.sh];else if(j==='elbow')v=[o.elb,o.sh,o.hand];else if(j==='knee2'&&o.knee2)v=[o.knee2,o.hip,o.ank2];
@@ -567,7 +603,7 @@ function openEx(id){
   const e=curEx;
   const logs=(S.logs[id]||[]);
   $('#pan').innerHTML=`<div class="row between" style="margin-bottom:8px"><div><h2 style="margin:0">${L(e.n)}</h2><span class="tag">${t(e.g)}</span></div><button class="x" data-act="close">✕</button></div>
-  ${e.pose?`<div class="fig"><div id="figbox">${drawFig(e,0,true)}</div><div class="row between" style="padding:4px 8px 6px"><span class="mut" id="phl">${t('start')}</span><button class="btn sec sm" data-act="pp" id="ppb">${t('play')}</button></div></div>`:`<div class="card mut">${t('noFig')}</div>`}
+  ${e.pose?`<div class="fig"><div id="figbox">${drawFig(e,0,true)}</div><div class="row between" style="padding:4px 8px 6px"><span class="mut"><span id="phl">${t('start')}</span> · <span style="color:#ff3b3b">●</span> ${t('working')}</span><button class="btn sec sm" data-act="pp" id="ppb">${t('play')}</button></div></div>`:`<div class="card mut">${t('noFig')}</div>`}
   <p style="margin:10px 0 4px"><b>${t('muscles')}:</b> ${esc(L(e.m))}</p>
   <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(e.q)}" target="_blank" rel="noopener">${t('video')}</a>
   ${[['s','stepsH','🧭'],['a','anglesH','📐'],['x','mistH','❌'],['p','proH','🏆']].map(([k,lb,ic])=>`<h3>${ic} ${t(lb)}</h3><ul class="b">${L(e[k]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}
