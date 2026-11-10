@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f1115">
+<title>GymPro Coach</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1115;--card:#181b22;--card2:#20242d;--line:#2a2f3a;--tx:#e9ecf1;--mut:#8a93a3;--acc:#c6ff3d;--acc2:#7cd4ff;--warn:#ffb547;--bad:#ff6b6b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font-family:'Cairo',system-ui,sans-serif;font-size:15px;line-height:1.6}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:14px 14px 96px}
+header.top{display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px}
+.brand{font-weight:800;font-size:20px;letter-spacing:.3px}.brand b{color:var(--acc)}
+.lang{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer;font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+h2{font-size:17px;margin:0 0 8px}h3{font-size:15px;margin:12px 0 6px;color:var(--acc)}
+.mut{color:var(--mut);font-size:13px}
+.row{display:flex;gap:8px;align-items:center}.between{justify-content:space-between}.wrapf{flex-wrap:wrap}
+.btn{background:var(--acc);color:#111;border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}
+.btn.sec{background:var(--card2);color:var(--tx);border:1px solid var(--line)}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:10px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;scrollbar-width:none}
+.chip{white-space:nowrap;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px;font-weight:600}
+.chip.on{background:var(--acc);color:#111;border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;cursor:pointer;text-align:center}
+.ex svg{width:100%;height:auto;background:var(--card2);border-radius:10px}
+.ex .nm{font-weight:700;font-size:13.5px;margin-top:4px;line-height:1.35}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:999px;background:var(--card2);color:var(--mut);border:1px solid var(--line)}
+.list .it{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);gap:8px;cursor:pointer}
+.list .it:last-child{border-bottom:0}
+.rx{font-weight:800;color:var(--acc);white-space:nowrap;direction:ltr}
+input,select,textarea{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+label{font-size:13px;color:var(--mut);display:block;margin:6px 0 3px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bar{height:9px;background:var(--card2);border-radius:99px;overflow:hidden;margin:3px 0 8px}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:99px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.kpi div{background:var(--card2);border-radius:12px;padding:8px 2px}
+.kpi b{display:block;font-size:17px;direction:ltr}.kpi span{font-size:11.5px;color:var(--mut)}
+nav.bn{position:fixed;bottom:0;left:0;right:0;background:#12151bf2;border-top:1px solid var(--line);display:flex;justify-content:center;backdrop-filter:blur(8px);z-index:20}
+nav.bn .in{display:flex;max-width:560px;width:100%}
+nav.bn button{flex:1;background:none;border:0;padding:8px 0 10px;cursor:pointer;color:var(--mut);font-size:11.5px;font-weight:700}
+nav.bn button .ic{display:block;font-size:20px;line-height:1.3}
+nav.bn button.on{color:var(--acc)}
+.sheet{position:fixed;inset:0;background:#000a;display:none;z-index:30;align-items:flex-end;justify-content:center}
+.sheet.open{display:flex}
+.sheet .pan{background:var(--bg);width:100%;max-width:560px;max-height:94vh;overflow-y:auto;border-radius:20px 20px 0 0;border:1px solid var(--line);padding:14px 14px 30px}
+.x{background:var(--card2);border:1px solid var(--line);border-radius:999px;width:34px;height:34px;cursor:pointer;font-size:16px}
+.fig{background:var(--card2);border-radius:14px;padding:4px;position:relative}
+.fig svg{width:100%;height:auto;display:block;direction:ltr}
+ul.b{margin:4px 0;padding-inline-start:20px}ul.b li{margin:3px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:700}
+.warn{border-color:#5a4520;background:#221c10;color:#ffd99a}
+.ok{color:var(--acc)}
+a{color:var(--acc2)}
+.sets{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sets span{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:2px 8px;font-size:13px;direction:ltr}
+.del{background:none;border:0;color:var(--bad);cursor:pointer;font-size:16px;padding:0 4px}
+.qty{display:flex;align-items:center;gap:6px}.qty button{width:34px;height:34px;border-radius:10px;background:var(--card2);border:1px solid var(--line);cursor:pointer;font-weight:800}
+.qty b{min-width:42px;text-align:center;direction:ltr}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--acc);color:#111;padding:8px 16px;border-radius:999px;font-weight:800;z-index:40;display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Gym<b>Pro</b> Coach</div>
+    <button class="lang" data-act="lang" id="langBtn">EN</button>
+  </header>
+  <main id="main"></main>
+</div>
+<nav class="bn"><div class="in" id="nav"></div></nav>
+<div class="sheet" id="sheet"><div class="pan" id="pan"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ STATE ============ */
+const KEY='gympro_v1';
+let S={lang:'ar',prog:'beg',next:{beg:0,int:0,adv:0},done:[],profile:null,logs:{},food:{},custom:[]};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const L=o=>o==null?'':(typeof o==='string'?o:(o[S.lang]??o.ar));
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const r0=n=>Math.round(n);
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',1600)}
+
+/* ============ TEXT ============ */
+const T={
+ar:{home:'الرئيسية',programs:'البرامج',exercises:'التمارين',food:'الأكل',profile:'حسابي',
+hello:'يلا بينا 💪',nextW:'تمرينك الجاي',startW:'افتح التمرين',doneW:'خلصت التمرين ✓',weekW:'تمارين الأسبوع ده',
+setup:'ظبط بياناتك الأول عشان أحسبلك السعرات والبروتين.',goSetup:'ظبط بياناتي',
+kcal:'سعرات',prot:'بروتين',carb:'كارب',fat:'دهون',water:'مية',left:'باقي',eaten:'أكلت',target:'الهدف',
+tips:'أسرار المدرب المحترف',disc:'المعلومات دي تعليمية عامة ومش بديل عن دكتور أو مدرب معتمد. لو عندك إصابة أو مشكلة صحية استشير متخصص قبل ما تبدأ، ووقّف أي تمرين يسبب ألم حاد.',
+beg:'مبتدئ',int:'متوسط',adv:'محترف',sets:'مجموعات × عدات',rest:'راحة',
+all:'الكل',legs:'رجل',chest:'صدر',back:'ضهر',shoulders:'كتف',arms:'دراع',core:'بطن',
+search:'دوّر...',muscles:'العضلات',stepsH:'طريقة الأداء',anglesH:'الزوايا والوضعية',mistH:'أخطاء شائعة',proH:'نصايح المحترفين',
+video:'▶ فيديوهات مجانية على يوتيوب',play:'⏸ إيقاف',pause:'▶ تشغيل',start:'البداية',end:'النهاية',noFig:'التمرين ده بيتشاف من قدّام، فالرسم الجانبي مش هيوضحه — افتح الفيديو.',
+logH:'سجّل مجموعاتك',kg:'كجم',reps:'عدات',addSet:'+ ضيف مجموعة',todaySets:'النهارده',lastS:'آخر مرة',best:'أقوى 1RM تقديري',noLog:'لسه مفيش تسجيل للتمرين ده.',
+progHint:'لو كمّلت كل المجموعات عند أعلى رقم عدات بتكنيك سليم ← زوّد الوزن ٢.٥ كجم المرة الجاية.',
+calc:'حاسبة السعرات والماكروز',sex:'النوع',male:'ذكر',female:'أنثى',age:'السن',height:'الطول (سم)',weight:'الوزن (كجم)',act:'النشاط',
+a1:'قليل (شغل مكتب)',a2:'خفيف (١–٣ تمرين/أسبوع)',a3:'متوسط (٣–٥ تمرين/أسبوع)',a4:'عالي (٦–٧ تمرين/أسبوع)',
+goal:'الهدف',cut:'تنشيف / خسارة دهون',main:'ثبات الوزن',bulk:'زيادة عضل (Lean bulk)',saveP:'احسب واحفظ',
+bmr:'معدل الحرق الأساسي BMR',tdee:'حرقك اليومي TDEE',yourT:'هدفك اليومي',litre:'لتر',
+lowWarn:'السعرات دي قليلة جداً. متنزلش تحتها من غير متابعة متخصص.',
+rate:'المعدل الصحي للنزول ٠.٥–١٪ من وزنك في الأسبوع، وللزيادة ٠.٢٥–٠.٥٪.',
+level:'مستواك',lang:'اللغة',backup:'نسخة احتياطية',copy:'انسخ بياناتي',imp:'استرجع من نص',impBtn:'استرجاع',reset:'مسح كل البيانات',sure:'متأكد؟ اضغط تاني للتأكيد',
+install:'تثبيته على أندرويد',instTx:'افتح اللينك في Chrome ← اضغط ⋮ فوق ← "Add to Home screen / إضافة إلى الشاشة الرئيسية". هيظهر كأيقونة زي أي تطبيق. بياناتك بتتحفظ على المتصفح ده بس، فخد نسخة احتياطية كل فترة.',
+foodLog:'أكل النهارده',addFood:'ضيف أكل',meal:'الوجبة',bf:'فطار',lu:'غدا',di:'عشا',sn:'سناك',serv:'الحصة',add:'ضيف',
+cat:'النوع',eg:'مصري',gulf:'خليجي/عربي',basic:'أساسيات',mine:'أكلاتي',custom:'ضيف أكلة من عندك',name:'الاسم',per:'لكل حصة',saveF:'حفظ الأكلة',
+sample:'يوم أكل نموذجي (مصري/خليجي)',scale:'عشان توصل لهدفك اضرب الكميات في',est:'القيم تقديرية لكل حصة، وبتفرق حسب طريقة الطبخ والزيت.',
+nTips:'قواعد الأكل الذهبية',empty:'لسه مضفتش أكل النهارده.',prev:'‹',nextD:'›',copied:'اتنسخ ✓',saved:'اتحفظ ✓',added:'اتضاف ✓',
+weekly:'نصيحة: ابدأ ببرنامج المبتدئ ٨–١٢ أسبوع حتى لو رفعت قبل كده، وركّز على التكنيك.',days:'أيام'},
+en:{home:'Home',programs:'Programs',exercises:'Exercises',food:'Nutrition',profile:'Me',
+hello:"Let's go 💪",nextW:'Your next workout',startW:'Open workout',doneW:'Workout done ✓',weekW:'Workouts this week',
+setup:'Set up your profile first so I can calculate your calories and protein.',goSetup:'Set up profile',
+kcal:'Calories',prot:'Protein',carb:'Carbs',fat:'Fat',water:'Water',left:'left',eaten:'Eaten',target:'Target',
+tips:'Pro coach secrets',disc:'This is general educational information, not a substitute for a doctor or certified coach. If you have an injury or a health condition, consult a professional first, and stop any exercise that causes sharp pain.',
+beg:'Beginner',int:'Intermediate',adv:'Advanced',sets:'Sets × reps',rest:'Rest',
+all:'All',legs:'Legs',chest:'Chest',back:'Back',shoulders:'Shoulders',arms:'Arms',core:'Core',
+search:'Search...',muscles:'Muscles',stepsH:'How to do it',anglesH:'Angles & position',mistH:'Common mistakes',proH:'Pro tips',
+video:'▶ Free videos on YouTube',play:'⏸ Pause',pause:'▶ Play',start:'Start',end:'End',noFig:'This exercise is seen from the front, so the side-view drawing won\'t show it — open the video.',
+logH:'Log your sets',kg:'kg',reps:'reps',addSet:'+ Add set',todaySets:'Today',lastS:'Last session',best:'Best est. 1RM',noLog:'No logs for this exercise yet.',
+progHint:'If you hit the top of the rep range on all sets with clean form → add 2.5 kg next session.',
+calc:'Calorie & macro calculator',sex:'Sex',male:'Male',female:'Female',age:'Age',height:'Height (cm)',weight:'Weight (kg)',act:'Activity',
+a1:'Sedentary (desk job)',a2:'Light (1–3 workouts/wk)',a3:'Moderate (3–5 workouts/wk)',a4:'High (6–7 workouts/wk)',
+goal:'Goal',cut:'Cut / fat loss',main:'Maintain',bulk:'Lean bulk',saveP:'Calculate & save',
+bmr:'Basal metabolic rate (BMR)',tdee:'Daily burn (TDEE)',yourT:'Your daily target',litre:'L',
+lowWarn:'This is very low. Don\'t go below it without professional supervision.',
+rate:'Healthy loss rate is 0.5–1% of bodyweight per week; for gaining, 0.25–0.5%.',
+level:'Your level',lang:'Language',backup:'Backup',copy:'Copy my data',imp:'Restore from text',impBtn:'Restore',reset:'Delete all data',sure:'Sure? Tap again to confirm',
+install:'Install on Android',instTx:'Open the link in Chrome → tap ⋮ → "Add to Home screen". It shows up as an app icon. Your data is saved in this browser only, so back it up now and then.',
+foodLog:"Today's food",addFood:'Add food',meal:'Meal',bf:'Breakfast',lu:'Lunch',di:'Dinner',sn:'Snack',serv:'Serving',add:'Add',
+cat:'Type',eg:'Egyptian',gulf:'Gulf/Arabic',basic:'Basics',mine:'My foods',custom:'Add your own food',name:'Name',per:'per serving',saveF:'Save food',
+sample:'Sample day (Egyptian/Gulf)',scale:'To hit your target, multiply portions by',est:'Values are estimates per serving and vary with cooking method and oil.',
+nTips:'Golden nutrition rules',empty:'No food logged today yet.',prev:'‹',nextD:'›',copied:'Copied ✓',saved:'Saved ✓',added:'Added ✓',
+weekly:'Tip: run the beginner program for 8–12 weeks even if you have lifted before, and focus on technique.',days:'days'}
+};
+const t=k=>(T[S.lang]||T.ar)[k]??k;
+
+/* ============ EXERCISES ============ */
+const B=(ar,en)=>({ar,en});
+const EX=[
+{id:'squat',g:'legs',q:'barbell back squat form',n:B('سكوات بالبار','Barbell Back Squat'),m:B('الفخذ الأمامي، المؤخرة، الفخذ الداخلي — وأسفل الضهر كمثبّت','Quads, glutes, adductors — lower back as stabilizer'),
+ s:B(['حط البار على عضلة الترابيس العليا، مش على فقرات رقبتك.','الرجلين بعرض الكتف أو أوسع شوية، والصوابع لبرة ١٥–٣٠°.','خد نفس عميق في بطنك واقفل الكور (Bracing) قبل كل عدة.','انزل بالحوض لورا ولتحت في نفس الوقت، والركبة ماشية في اتجاه الصوابع.','اطلع وانت بتزق الأرض بالقدم كلها لحد ما تفرد.'],['Rest the bar on your upper traps, not on your neck bones.','Feet shoulder-width or slightly wider, toes out 15–30°.','Take a deep belly breath and brace your core before every rep.','Sit back and down at the same time, knees tracking over your toes.','Drive up by pushing the floor with your whole foot until you lock out.']),
+ a:B(['الركبة: انزل لحد ما الفخذ يبقى موازي للأرض أو أوطى (زاوية الركبة ≈ ٩٠° أو أقل) لو مرونتك تسمح.','الجذع: ميلان لقدام ٣٠–٤٥° طبيعي، المهم الضهر يفضل مفرود (Neutral).','عادي إن الركبة تعدّي الصوابع طالما الكعب ثابت على الأرض.'],['Knee: go down until your thigh is parallel or lower (knee ≈ 90° or less) if your mobility allows.','Torso: a 30–45° forward lean is normal; keep your back neutral.','Knees passing your toes is fine as long as your heels stay down.']),
+ x:B(['الركبة تدخل لجوه (Knee valgus).','الكعب يترفع من الأرض.','الضهر يتقوس أو يتكوّر تحت.'],['Knees caving in (valgus).','Heels lifting off the floor.','Lower back rounding at the bottom.']),
+ p:B(['انزل في ٢–٣ ثواني متحكم واطلع بقوة.','لو مبتدئ ابدأ بـ Goblet Squat بدمبل قدام صدرك لحد ما الحركة تتظبط.','سخّن: بار فاضي ×١٠، بعدها ٥٠٪ ×٥، ٧٥٪ ×٣.'],['Lower in 2–3 seconds under control, then drive up hard.','Beginners: start with the Goblet Squat (dumbbell at your chest) until the pattern is solid.','Warm up: empty bar ×10, then 50% ×5, 75% ×3.']),
+ pose:{A:{a:[100,185],h:[100,91],t:0,hd:[90,34],eb:'d'},B:{a:[100,185],h:[68,140],t:42,hd:[100,92]},show:['knee','hip'],eq:{bar:'shoulder'}}},
+{id:'rdl',g:'legs',q:'romanian deadlift form',n:B('رومانيان ديدلفت','Romanian Deadlift (RDL)'),m:B('الفخذ الخلفي (هامسترنج)، المؤخرة، أسفل الضهر','Hamstrings, glutes, lower back'),
+ s:B(['اقف والبار في إيدك قدام فخادك، والرجلين بعرض الحوض.','ثني الركبة ثنية خفيفة وثبّتها كده طول الحركة.','زق الحوض لورا (Hip hinge) والبار ماشي لازق في رجلك.','انزل لحد ما تحس بشد في الفخذ الخلفي (غالباً نص القصبة).','ارجع بزق الحوض لقدام واعصر المؤخرة فوق.'],['Stand holding the bar in front of your thighs, feet hip-width.','Soft bend in the knees, and keep that angle the whole time.','Push your hips back (hip hinge) with the bar sliding down your legs.','Lower until you feel a strong hamstring stretch (usually mid-shin).','Drive your hips forward and squeeze your glutes at the top.']),
+ a:B(['الركبة ثابتة على ١٥–٢٠° ثني تقريباً.','الحركة كلها من الحوض: زاوية الحوض بتقفل لحد ≈ ٩٠°.','الضهر مفرود والدراع عمودي على الأرض.'],['Knees fixed at roughly 15–20° of bend.','All the movement comes from the hip: hip angle closes to ≈ 90°.','Back neutral, arms hanging vertical.']),
+ x:B(['تكوير الضهر عشان تنزل أوطى.','تحويلها لسكوات بثني الركبة زيادة.','البار يبعد عن رجلك.'],['Rounding your back to go lower.','Turning it into a squat by bending the knees too much.','Letting the bar drift away from your legs.']),
+ p:B(['المدى بتاعك = لحد ما الضهر يبدأ يتكور، متنزلش أكتر من كده.','النزول بطيء ٣ ثواني بيبني هامسترنج أسرع.','بص للأرض قدامك بمتر عشان الرقبة تفضل مفرودة.'],['Your range ends where your back starts to round — no deeper.','A slow 3-second lowering builds hamstrings faster.','Look at the floor about a metre ahead to keep your neck neutral.']),
+ pose:{A:{a:[100,185],h:[100,91],t:0,ho:[2,62]},B:{a:[100,185],h:[80,98],t:80,ho:[0,62]},show:['hip','knee'],eq:{bar:'hand'}}},
+{id:'deadlift',g:'back',q:'conventional deadlift form',n:B('ديدلفت','Conventional Deadlift'),m:B('الضهر كله، المؤخرة، الفخذ الخلفي، الترابيس، القبضة','Entire back, glutes, hamstrings, traps, grip'),
+ s:B(['البار فوق نص القدم، والرجلين بعرض الحوض.','انزل امسك البار برّه رجلك على طول.','نزّل الحوض لحد ما القصبة تلمس البار، وارفع صدرك.','شد اللاتس (كأنك بتعصر برتقانة تحت باطك) وخد نفس.','زق الأرض برجلك والبار لازق في جسمك لحد ما تقف مفرود.'],['Bar over mid-foot, feet hip-width.','Grip the bar just outside your legs.','Drop your hips until your shins touch the bar, chest up.','Pull your lats tight (like squeezing oranges in your armpits) and breathe in.','Push the floor away, bar dragging up your body until you stand tall.']),
+ a:B(['الكتف فوق البار أو قدامه شوية في البداية.','الحوض أعلى من الركبة وأوطى من الكتف.','في الآخر: الجسم مفرود ١٨٠° من غير ما تميل لورا.'],['Shoulders over or slightly in front of the bar at the start.','Hips higher than knees, lower than shoulders.','At lockout: body straight at 180°, no leaning back.']),
+ x:B(['تشد البار بزقة (Jerk) بدل ما تشده بثبات.','الحوض يطلع قبل الصدر.','الميل لورا في الآخر.'],['Jerking the bar instead of pulling the slack out.','Hips shooting up before the chest.','Hyper-extending backwards at lockout.']),
+ p:B(['اسحب "الرخاوة" من البار قبل ما يتحرك (Pull the slack).','٣–٥ عدات كفاية؛ التكرارات العالية بتبوّظ التكنيك.','المبتدئ يبدأ بـ RDL ومن الأرض بعد ما الهينج يتظبط.'],['Pull the slack out of the bar before it leaves the floor.','3–5 reps is plenty; high reps break technique.','Beginners: start with RDLs, pull from the floor once your hinge is solid.']),
+ pose:{A:{a:[100,185],h:[70,120],t:66,hd:[112,160],eb:'d'},B:{a:[100,185],h:[100,91],t:0,ho:[2,62]},show:['hip','knee'],eq:{bar:'hand'}}},
+{id:'lunge',g:'legs',q:'dumbbell lunge form',n:B('لانجز بالدمبل','Dumbbell Lunge'),m:B('الفخذ الأمامي، المؤخرة، التوازن','Quads, glutes, balance'),
+ s:B(['امسك دمبلين جنبك واقف مفرود.','خد خطوة طويلة لقدام (أو لورا — أسهل على الركبة).','انزل لحد ما الركبة الورانية تقرب من الأرض.','ازق بالرجل القدامية وارجع.'],['Hold two dumbbells at your sides, stand tall.','Take a long step forward (or backward — easier on the knees).','Drop until your back knee nearly touches the floor.','Push through the front foot to return.']),
+ a:B(['الركبتين الاتنين ≈ ٩٠° تحت.','الجذع مفرود أو مايل لقدام سنة بسيطة (يشغّل المؤخرة أكتر).','الركبة القدامية فوق نص القدم.'],['Both knees ≈ 90° at the bottom.','Torso upright or slightly forward (more glutes).','Front knee over mid-foot.']),
+ x:B(['خطوة قصيرة جداً والكعب يترفع.','الركبة القدامية تدخل لجوه.','تخبط الركبة الورانية في الأرض.'],['Step too short, heel lifts.','Front knee caving in.','Slamming the back knee into the floor.']),
+ p:B(['Reverse lunge (لورا) أأمن للمبتدئ.','ابدأ بالرجل الأضعف.','Bulgarian Split Squat نسخة أقوى بعد كده.'],['Reverse lunges are safer for beginners.','Start each set with your weaker leg.','Progress later to the Bulgarian split squat.']),
+ pose:{A:{a:[132,185],a2:[62,185],h:[97,98],t:0,ho:[0,62],kb2:'b'},B:{a:[132,185],a2:[62,185],h:[96,138],t:4,ho:[0,62],kb2:'d'},show:['knee','knee2'],eq:{db:1}}},
+{id:'hipthrust',g:'legs',q:'barbell hip thrust form',n:B('هيب ثرست','Barbell Hip Thrust'),m:B('المؤخرة (أقوى تمرين ليها)، الفخذ الخلفي','Glutes (top glute builder), hamstrings'),
+ s:B(['سنّد أسفل لوح الكتف على طرف البنش.','البار على الحوض (استخدم مخدة/Pad).','الرجلين على الأرض بعرض الحوض.','ارفع الحوض لحد ما الجسم يبقى خط مستقيم من الكتف للركبة.','اعصر المؤخرة ثانية فوق وانزل بتحكم.'],['Rest your lower shoulder blades on the edge of a bench.','Bar across your hips (use a pad).','Feet flat, hip-width apart.','Drive your hips up until shoulders-to-knees is a straight line.','Squeeze the glutes for 1 second at the top, lower under control.']),
+ a:B(['فوق: الركبة ≈ ٩٠° والقصبة عمودية.','الحوض مفرود ١٨٠° مع الجذع — من غير ما تقوّس أسفل الضهر.','الدقن لتحت شوية.'],['Top: knees ≈ 90°, shins vertical.','Hips fully extended in line with your torso — no lower-back arch.','Chin slightly tucked.']),
+ x:B(['تقويس أسفل الضهر بدل فرد الحوض.','الرجل بعيدة أوي (الشغل يروح للهامسترنج).','الطلوع بسرعة من غير عصر.'],['Arching the lower back instead of extending the hips.','Feet too far out (shifts work to hamstrings).','Bouncing up without the squeeze.']),
+ p:B(['تخيّل إن الحوض بيتلف لتحت (Posterior tilt) فوق.','ممكن تبدأ بـ Glute bridge على الأرض.'],['Think of tucking your pelvis under (posterior tilt) at the top.','You can start with floor glute bridges.']),
+ pose:{A:{a:[168,185],h:[112,180],t:-61,ho:[22,14],kb:'u'},B:{a:[168,185],h:[118,150],t:-90,ho:[22,14],kb:'u'},show:['hip','knee'],eq:{bar:'hip',bench:[18,157,66,157]}}},
+{id:'legext',g:'legs',q:'leg extension machine form',n:B('ليج إكستنشن','Leg Extension'),m:B('الفخذ الأمامي (عزل)','Quads (isolation)'),
+ s:B(['ظبط الضهر بحيث الركبة تبقى عند محور الجهاز.','المخدة فوق الكاحل.','افرد رجلك للآخر واعصر ثانية.','انزل في ٢–٣ ثواني.'],['Adjust the back pad so your knee lines up with the machine pivot.','Pad sits just above the ankle.','Extend fully and squeeze for a second.','Lower in 2–3 seconds.']),
+ a:B(['من ≈ ٩٠° لحد ١٨٠° (فرد كامل).','ميل الجذع لورا شوية بيمدّ الفخذ أكتر ويزود الشغل.'],['From ≈ 90° to 180° (full extension).','Leaning back slightly stretches the quads more.']),
+ x:B(['تتطوّح بالوزن.','نص مدى.'],['Swinging the weight.','Half reps.']),
+ p:B(['تمرين ممتاز آخر يوم الرجل بعدات ١٢–٢٠.'],['Great finisher on leg day at 12–20 reps.']),
+ pose:{A:{a:[128,178],h:[80,130],t:-6,ho:[6,40]},B:{a:[174,126],h:[80,130],t:-6,ho:[6,40]},show:['knee'],eq:{bench:[60,138,130,138],pad:1},nofloor:0}},
+{id:'calf',g:'legs',q:'standing calf raise form',n:B('سمانة واقف','Standing Calf Raise'),m:B('السمانة','Calves'),
+ s:B(['اقف وصوابعك على حرف (Step) والكعب برة.','نزّل الكعب لتحت خالص لحد ما تحس بشد.','اطلع على صوابعك لأعلى نقطة واثبت ثانية.'],['Stand with the balls of your feet on a step, heels hanging.','Drop your heels all the way down for a deep stretch.','Rise as high as you can and hold one second.']),
+ a:B(['المدى الكامل أهم من الوزن: تحت مشدود — فوق مقفول.','الركبة مفرودة (ثنيها بيحوّل الشغل لعضلة السوليوس).'],['Full range beats heavy weight: deep stretch to full squeeze.','Knees straight (bending shifts work to the soleus).']),
+ x:B(['النطّ السريع (Bouncing).','مدى قصير.'],['Bouncing fast.','Short range.']),
+ p:B(['اثبت ثانيتين تحت في الشد — ده سر السمانة.'],['Pause 2 seconds in the bottom stretch — the calf secret.']),
+ pose:{A:{a:[100,185],h:[100,91],t:0,ho:[0,62],toe:[114,186]},B:{a:[101,172],h:[101,78],t:0,ho:[0,62],toe:[114,186]},show:[],eq:{db:1}}},
+{id:'bench',g:'chest',q:'barbell bench press form',n:B('بنش برس','Barbell Bench Press'),m:B('الصدر، الكتف الأمامي، الترايسبس','Chest, front delts, triceps'),
+ s:B(['نام والعين تحت البار. لوحين الكتف لورا ولتحت (اعصرهم).','الرجل ثابتة على الأرض، وتقويسة خفيفة طبيعية في الضهر.','مسكة أوسع من الكتف شوية، والرسغ فوق الكوع.','نزّل البار لأسفل الصدر بتحكم.','ازق لفوق وشوية لورا ناحية الوش.'],['Lie with eyes under the bar. Pull shoulder blades back and down.','Feet planted, slight natural arch.','Grip slightly wider than shoulders, wrists stacked over elbows.','Lower the bar to your lower chest under control.','Press up and slightly back toward your face.']),
+ a:B(['الكوع بزاوية ٤٥–٧٠° من الجسم (مش ٩٠° مفتوح على الآخر).','تحت: الساعد عمودي على الأرض.','البار ينزل على خط الحلمة أو تحته شوية.'],['Elbows at 45–70° from your torso (not flared to 90°).','Bottom: forearms vertical.','Bar touches at nipple line or slightly below.']),
+ x:B(['الكوع مفتوح ٩٠° (بيضغط على الكتف).','تنطيط البار على الصدر.','الحوض يترفع من البنش.'],['Elbows flared to 90° (stresses the shoulder).','Bouncing the bar off your chest.','Butt lifting off the bench.']),
+ p:B(['استخدم Spotter أو Safety bars دايماً في الأوزان التقيلة.','وقفة ثانية على الصدر (Paused) بتقوّي البداية.'],['Always use a spotter or safety bars when going heavy.','A 1-second pause on the chest builds strength off the bottom.']),
+ pose:{A:{a:[48,185],h:[100,130],t:90,kb:'u',hd:[160,68]},B:{a:[48,185],h:[100,130],t:90,kb:'u',hd:[150,102],eb:'d'},show:['knee'],eq:{bar:'hand',bench:[86,138,176,138]}}},
+{id:'incline',g:'chest',q:'incline dumbbell press form',n:B('إنكلاين دمبل برس','Incline Dumbbell Press'),m:B('الصدر العلوي، الكتف الأمامي، الترايسبس','Upper chest, front delts, triceps'),
+ s:B(['البنش على ٣٠° (مش ٤٥° — دي بتشغّل الكتف أكتر).','الدمبل على ركبتك وارجع بيهم لورا.','نزّل الدمبل لحد جنب الصدر العلوي.','ازق لفوق وقرّبهم من بعض من غير ما يخبطوا.'],['Set the bench to 30° (45° hits the shoulders more).','Kick the dumbbells up from your knees as you lie back.','Lower to the sides of your upper chest.','Press up and bring them together without clanking.']),
+ a:B(['زاوية البنش ١٥–٣٠°.','الكوع ٤٥–٦٠° من الجسم.','تحت: الدمبل في مستوى الصدر عشان مط كامل.'],['Bench angle 15–30°.','Elbows 45–60° from your torso.','Bottom: dumbbells at chest level for a full stretch.']),
+ x:B(['بنش عالي أوي.','نص مدى.'],['Bench too steep.','Half range.']),
+ p:B(['الدمبل بيدّي مدى أكبر من البار — ممتاز للتضخيم.'],['Dumbbells allow a deeper range than the bar — great for growth.']),
+ pose:{A:{a:[58,185],h:[96,142],t:60,kb:'u',hd:[148,52]},B:{a:[58,185],h:[96,142],t:60,kb:'u',hd:[127,92],eb:'d'},show:[],eq:{db:1,bench:[92,152,150,120]}}},
+{id:'pushup',g:'chest',q:'push up proper form',n:B('ضغط (Push-up)','Push-up'),m:B('الصدر، الترايسبس، الكتف، الكور','Chest, triceps, shoulders, core'),
+ s:B(['الإيدين أوسع من الكتف شوية.','الجسم خط مستقيم من الراس للكعب، والبطن مشدودة.','انزل لحد ما الصدر يقرب من الأرض.','ازق لفوق للآخر.'],['Hands slightly wider than shoulders.','Body in a straight line head to heels, abs tight.','Lower until your chest nearly touches the floor.','Push all the way up.']),
+ a:B(['الحوض ١٨٠° (خط مستقيم) — مش طالع ولا نازل.','الكوع ٤٥° تقريباً من الجسم (شكل سهم ↑ مش T).','تحت: الكوع ≈ ٩٠° أو أقل.'],['Hips at 180° (straight line) — no sagging or piking.','Elbows ~45° from your body (arrow shape, not a T).','Bottom: elbows ≈ 90° or less.']),
+ x:B(['الوسط يهبط لتحت.','نص عدة.','الراس بتسبق الجسم.'],['Hips sagging.','Half reps.','Head dropping first.']),
+ p:B(['مش قادر؟ اعمله على بنش أو حيطة (Incline push-up).','سهل؟ حط رجلك على بنش أو زوّد وزن على ضهرك.'],["Can't do it yet? Elevate your hands on a bench (incline push-up).",'Too easy? Feet on a bench or add a weight plate on your back.']),
+ pose:{A:{a:[30,180],toe:[40,186],h:[116,142],t:66,hd:[170,184],eb:'u'},B:{a:[30,180],toe:[40,186],h:[123,164],t:80,hd:[173,184],eb:'u'},show:['hip','elbow'],eq:{}}},
+{id:'dips',g:'chest',q:'chest dips form',n:B('ديبس','Parallel Bar Dips'),m:B('الصدر السفلي، الترايسبس، الكتف الأمامي','Lower chest, triceps, front delts'),
+ s:B(['اطلع على البارين والدراع مفرود.','ميل لقدام سنة (للصدر) أو خليك عمودي (للترايسبس).','انزل لحد ما الكتف يبقى في مستوى الكوع تقريباً.','ازق لفوق.'],['Support yourself on the bars, arms locked.','Lean forward slightly (chest) or stay upright (triceps).','Lower until shoulders are about level with elbows.','Press back up.']),
+ a:B(['تحت: الكوع ≈ ٩٠°، متنزلش أوطى لو الكتف بيوجعك.','ميل الجذع ١٠–٣٠° للصدر.'],['Bottom: elbows ≈ 90°; don\'t go deeper if your shoulder hurts.','Torso lean 10–30° for chest.']),
+ x:B(['النزول العميق جداً.','الكتف يطلع ناحية الودن.'],['Going too deep.','Shrugging shoulders to the ears.']),
+ p:B(['ابدأ بجهاز Assisted dip لو مش قادر على وزن جسمك.'],['Use the assisted dip machine if bodyweight is too hard.']),
+ pose:{A:{a:[72,178],h:[106,122],t:10,hd:[114,126],kb:'f'},B:{a:[66,190],h:[98,138],t:25,hd:[114,126],eb:'b',kb:'f'},show:['elbow'],eq:{dip:[114,128]},nofloor:1}},
+{id:'pullup',g:'back',q:'pull up proper form',n:B('عقلة / لات بول داون','Pull-up / Lat Pulldown'),m:B('اللاتس (عرض الضهر)، البايسبس، الضهر الأوسط','Lats (back width), biceps, mid back'),
+ s:B(['امسك البار أوسع من الكتف شوية، وكف الإيد لبرة.','ابدأ بشد لوح الكتف لتحت (كأنك بتحطهم في جيوبك الورانية).','اسحب الكوع لتحت وناحية جنبك لحد ما الدقن تعدّي البار.','انزل بتحكم لحد ما الدراع يتفرد.'],['Grip slightly wider than shoulders, palms facing away.','Start by pulling your shoulder blades down (into your back pockets).','Drive your elbows down to your sides until your chin clears the bar.','Lower under control to a full hang.']),
+ a:B(['فوق: الكوع ≈ ٤٠–٦٠° والصدر طالع للبار.','ميل لورا ١٠–٢٠° بس، مش أكتر.','تحت: الدراع مفرود للآخر (مط كامل للاتس).'],['Top: elbows ≈ 40–60°, chest toward the bar.','Only a 10–20° backward lean.','Bottom: arms fully straight (full lat stretch).']),
+ x:B(['التطويح والكيبينج.','نص عدة من فوق.','السحب بالدراع بدل الضهر.'],['Swinging and kipping.','Half reps at the top.','Pulling with the arms instead of the back.']),
+ p:B(['مش قادر تعمل عقلة؟ ابدأ بـ Lat Pulldown أو Assisted pull-up أو نزول بطيء (Negatives ٥ ثواني).','فكّر "الكوع للجيب" مش "الإيد للبار".'],["Can't do pull-ups yet? Use the lat pulldown, assisted machine, or 5-second negatives.",'Think "elbows to pockets", not "hands to bar".']),
+ pose:{A:{a:[84,196],h:[112,140],t:-2,hd:[112,22],kb:'f'},B:{a:[86,160],h:[116,100],t:-12,hd:[112,22],eb:'d',kb:'f'},show:['elbow'],eq:{pull:22},nofloor:1}},
+{id:'row',g:'back',q:'barbell row form',n:B('بار رو (تجديف بالبار)','Barbell Row'),m:B('الضهر الأوسط، اللاتس، الكتف الخلفي، البايسبس','Mid back, lats, rear delts, biceps'),
+ s:B(['اعمل هينج لحد ما الجذع يبقى ٣٠–٤٥° من الأرض.','الركبة مثنية خفيف والضهر مفرود.','اسحب البار لأسفل البطن وانت بتعصر لوح الكتف.','نزّله بتحكم من غير ما الجذع يتحرك.'],['Hinge until your torso is 30–45° above horizontal.','Soft knees, neutral back.','Row the bar to your lower stomach, squeezing your shoulder blades.','Lower under control without moving your torso.']),
+ a:B(['زاوية الحوض ثابتة طول المجموعة — مفيش تطويح.','الكوع ماشي لورا بزاوية ≈ ٤٥° من الجسم.','فوق: الكوع ≈ ٩٠° أو أقل.'],['Hip angle stays fixed for the whole set — no swinging.','Elbows travel back at ≈ 45° from the body.','Top: elbow ≈ 90° or less.']),
+ x:B(['الجذع يطلع وينزل مع كل عدة.','تكوير الضهر.'],['Torso bobbing up with each rep.','Rounding the back.']),
+ p:B(['لو أسفل ضهرك بيتعب، استخدم Chest-supported row.'],['If your lower back tires, switch to a chest-supported row.']),
+ pose:{A:{a:[100,185],h:[80,112],t:70,ho:[0,62]},B:{a:[100,185],h:[80,112],t:70,hd:[106,118],eb:'u'},show:['elbow','hip'],eq:{bar:'hand'}}},
+{id:'cablerow',g:'back',q:'seated cable row form',n:B('سيتد كيبل رو','Seated Cable Row'),m:B('الضهر الأوسط، اللاتس، الكتف الخلفي','Mid back, lats, rear delts'),
+ s:B(['اقعد والرجل على الدواسة والركبة مثنية خفيف.','الضهر مفرود والصدر لفوق.','اسحب المقبض لبطنك واعصر لوح الكتف ثانية.','ارجع ومد دراعك ولوح الكتف لقدام (مط).'],['Sit with feet on the platform, knees slightly bent.','Back straight, chest up.','Pull the handle to your stomach and squeeze for a second.','Return, letting arms and shoulder blades stretch forward.']),
+ a:B(['الجذع عمودي ٩٠° تقريباً — ميل ١٠° لقدام في المط مسموح.','الكوع لازق في الجسم.'],['Torso roughly vertical — a 10° forward lean on the stretch is fine.','Elbows close to the body.']),
+ x:B(['الشد بالضهر لورا (تطويح).','الكتف بيطلع لفوق.'],['Yanking with your lower back.','Shrugging up.']),
+ p:B(['ثانية عصر فوق + ٢ ثانية رجوع.'],['1-second squeeze + 2-second return.']),
+ pose:{A:{a:[162,168],h:[80,148],t:8,hd:[146,96],kb:'u'},B:{a:[162,168],h:[80,148],t:-6,hd:[100,112],eb:'b',kb:'u'},show:['elbow'],eq:{bench:[50,156,110,156],cable:[236,150]}}},
+{id:'facepull',g:'shoulders',q:'face pull form',n:B('فيس بول','Face Pull'),m:B('الكتف الخلفي، الروتيتور كاف، الضهر العلوي','Rear delts, rotator cuff, upper back'),
+ s:B(['الكيبل في مستوى الوش، بالحبل.','اسحب الحبل ناحية وشك وافتحه لبرة.','الكوع عالي والإيد تعدّي ودنك (شكل دبل بايسبس).'],['Cable at face height, rope attachment.','Pull the rope toward your face, spreading it apart.','Elbows high, hands finishing beside your ears (double-biceps pose).']),
+ a:B(['الكوع في مستوى الكتف أو أعلى.','دوران خارجي للكتف في الآخر.'],['Elbows at or above shoulder height.','Finish with external rotation.']),
+ x:B(['وزن تقيل والجسم بيترجّع لورا.'],['Going too heavy and leaning back.']),
+ p:B(['تمرين "صحة الكتف" — اعمله ٢–٣ مرات في الأسبوع بعدات ١٥–٢٠.'],['A shoulder-health staple — do it 2–3×/week for 15–20 reps.']),
+ pose:{A:{a:[100,185],h:[100,91],t:-4,hd:[156,40]},B:{a:[100,185],h:[100,91],t:-4,hd:[108,14],eb:'b'},show:['elbow'],eq:{cable:[236,40]}}},
+{id:'ohp',g:'shoulders',q:'overhead press form',n:B('أوفرهيد برس','Overhead Press'),m:B('الكتف (أمامي وجانبي)، الترايسبس، الكور','Delts (front & side), triceps, core'),
+ s:B(['البار على أعلى الصدر، والمسكة أوسع من الكتف سنة.','اعصر المؤخرة والبطن (الجسم كله مشدود).','ازق البار لفوق وابعد راسك لورا سنة عشان يعدّي.','بعد ما يعدّي الراس، دخّل راسك لقدام تحت البار.'],['Bar on your upper chest, grip just outside shoulders.','Squeeze glutes and abs (whole body tight).','Press straight up, tilting your head back slightly to clear the bar.','Once past your head, push your head through under the bar.']),
+ a:B(['فوق: البار فوق نص القدم والدراع مفرود ١٨٠°.','الساعد عمودي طول الحركة.','مفيش تقويس زيادة في الضهر.'],['Top: bar over mid-foot, arms locked at 180°.','Forearms vertical throughout.','No excessive back arch.']),
+ x:B(['تقويس الضهر لورا (بيحوّلها إنكلاين).','البار يروح لقدام بعيد عن الوش.'],['Leaning back (turns it into an incline press).','Bar drifting forward away from your face.']),
+ p:B(['ممكن تعملها قاعد بالدمبل لو أسفل ضهرك حساس.'],['Do it seated with dumbbells if your lower back is sensitive.']),
+ pose:{A:{a:[100,185],h:[100,91],t:0,hd:[113,40],eb:'d'},B:{a:[100,185],h:[100,91],t:0,hd:[101,-27]},show:['elbow'],eq:{bar:'hand'}}},
+{id:'lateral',g:'shoulders',q:'dumbbell lateral raise form',n:B('رفرفة جانبي','Dumbbell Lateral Raise'),m:B('الكتف الجانبي (عرض الكتف)','Side delts (shoulder width)'),
+ s:B(['اقف والدمبل جنبك، ميل لقدام سنة.','ارفع دراعك على الجنب لحد مستوى الكتف.','الكوع مثني خفيف وأعلى من الرسغ شوية.','انزل في ٢–٣ ثواني.'],['Stand with dumbbells at your sides, leaning slightly forward.','Raise your arms out to the side up to shoulder height.','Slight elbow bend, elbows a touch higher than wrists.','Lower in 2–3 seconds.']),
+ a:B(['ارفع لحد ٩٠° من الجسم (مستوى الكتف) — مش أعلى.','الدراع قدام الجسم بـ ١٥–٣٠° (Scapular plane) أريح للكتف.'],['Raise to 90° from your body (shoulder height) — no higher.','Arms 15–30° in front of your body (scapular plane) is easier on the shoulder.']),
+ x:B(['وزن تقيل وتطويح بالجسم.','الترابيس يطلع (Shrug).'],['Too heavy, swinging the body.','Shrugging with the traps.']),
+ p:B(['وزن خفيف وعدات عالية ١٢–٢٠ بيدي نتيجة أحسن.','الكيبل بيدّي شد ثابت — جرّبه.'],['Light weight, high reps (12–20) works best.','Cables give constant tension — try them.']),
+ pose:null},
+{id:'curl',g:'arms',q:'dumbbell bicep curl form',n:B('بايسبس كيرل','Biceps Curl'),m:B('البايسبس، البراكياليس','Biceps, brachialis'),
+ s:B(['اقف والدمبل جنبك وكف الإيد لقدام.','الكوع ثابت جنب جسمك.','ارفع الدمبل لحد الكتف واعصر.','انزل للآخر في ٢–٣ ثواني.'],['Stand with dumbbells at your sides, palms forward.','Keep elbows pinned at your sides.','Curl up to your shoulders and squeeze.','Lower all the way in 2–3 seconds.']),
+ a:B(['من ١٨٠° (دراع مفرود) لحد ≈ ٣٥–٤٥°.','الكوع ميتحركش لقدام أكتر من سنة.'],['From 180° (straight arm) to ≈ 35–45°.','Elbows barely move forward.']),
+ x:B(['التطويح بالضهر.','نص مدى تحت.'],['Swinging with the back.','Cutting the bottom range.']),
+ p:B(['Incline curl (على بنش مايل) بيمد البايسبس أكتر — ممتاز.'],['Incline curls (on an inclined bench) stretch the biceps more — excellent.']),
+ pose:{A:{a:[100,185],h:[100,91],t:0,hd:[101,95]},B:{a:[100,185],h:[100,91],t:0,hd:[115,40],eb:'d'},show:['elbow'],eq:{db:1}}},
+{id:'hammer',g:'arms',q:'hammer curl form',n:B('هامر كيرل','Hammer Curl'),m:B('البراكياليس، الساعد، البايسبس','Brachialis, forearms, biceps'),
+ s:B(['زي الكيرل بس كف الإيد في وش بعض (مسكة شاكوش).','الكوع ثابت جنبك.','ارفع وانزل بتحكم.'],['Like a curl but palms facing each other (hammer grip).','Elbows pinned at your sides.','Lift and lower under control.']),
+ a:B(['نفس زوايا الكيرل: ١٨٠° ← ٤٠°.'],['Same angles as the curl: 180° → 40°.']),
+ x:B(['تطويح.'],['Swinging.']),
+ p:B(['بيدّي الدراع "تخن" من الجنب.'],['Builds arm thickness from the side.']),
+ pose:'curl'},
+{id:'pushdown',g:'arms',q:'tricep pushdown form',n:B('ترايسبس بوش داون','Triceps Pushdown'),m:B('الترايسبس','Triceps'),
+ s:B(['اقف قدام الكيبل وميل لقدام سنة.','الكوع لازق جنبك.','ازق لتحت لحد ما الدراع يتفرد واعصر.','ارجع لحد ما الساعد يعدّي ٩٠°.'],['Stand at the cable, lean forward slightly.','Elbows pinned to your sides.','Push down until your arms lock and squeeze.','Return until forearms pass 90°.']),
+ a:B(['الكوع من ≈ ٧٠–٩٠° لحد ١٨٠°.','الكتف ميتحركش — الحركة من الكوع بس.'],['Elbow from ≈ 70–90° to 180°.','Shoulder stays still — movement at the elbow only.']),
+ x:B(['الكوع بيطلع ويتحرك.','وزن تقيل بالجسم كله.'],['Elbows drifting up.','Using bodyweight to push heavy loads.']),
+ p:B(['Overhead extension بيشغّل الراس الطويلة للترايسبس أكتر — ضيفه.'],['Overhead extensions hit the long head more — add them.']),
+ pose:{A:{a:[100,185],h:[100,91],t:8,hd:[136,58],eb:'d'},B:{a:[100,185],h:[100,91],t:8,hd:[110,97]},show:['elbow'],eq:{cable:[150,-34]}}},
+{id:'plank',g:'core',q:'plank proper form',n:B('بلانك','Plank'),m:B('البطن، الكور، الكتف','Abs, core, shoulders'),
+ s:B(['الساعد على الأرض والكوع تحت الكتف.','الجسم خط مستقيم.','اعصر المؤخرة والبطن وكأنك مستني حد يضربك في بطنك.','اتنفس عادي.'],['Forearms on the floor, elbows under shoulders.','Body in a straight line.','Squeeze glutes and abs like you are bracing for a punch.','Keep breathing.']),
+ a:B(['الحوض ١٨٠° — الخط من الكتف للكعب مستقيم.','الكوع ٩٠°.'],['Hips at 180° — straight line shoulder to heel.','Elbows at 90°.']),
+ x:B(['الوسط يهبط.','الحوض عالي أوي.'],['Sagging hips.','Hips too high.']),
+ p:B(['٣ × ٢٠–٦٠ ثانية بشد حقيقي أحسن من ٣ دقايق مرتخي.'],['3 × 20–60 s with real tension beats 3 sloppy minutes.']),
+ pose:{A:{a:[30,180],toe:[40,186],h:[123,164],t:80,hd:[212,183]},B:{a:[30,180],toe:[40,186],h:[123,162],t:79,hd:[212,183]},show:['hip','elbow'],eq:{}}},
+{id:'kneeraise',g:'core',q:'hanging knee raise form',n:B('رفع الركب متعلق','Hanging Knee Raise'),m:B('البطن السفلية، عضلات الحوض','Lower abs, hip flexors'),
+ s:B(['اتعلق على العقلة والكتف مشدود.','ارفع ركبك ناحية صدرك ولفّ الحوض لفوق.','انزل بتحكم من غير تطويح.'],['Hang from the bar with shoulders engaged.','Bring your knees toward your chest, curling your pelvis up.','Lower under control without swinging.']),
+ a:B(['الحوض يقفل لأقل من ٩٠°.','لفّة الحوض (Posterior tilt) فوق هي اللي بتشغّل البطن.'],['Hip closes below 90°.','The pelvic curl at the top is what works the abs.']),
+ x:B(['التطويح.','رفع الرجل من غير لفّ الحوض.'],['Swinging.','Lifting the legs without curling the pelvis.']),
+ p:B(['مبتدئ؟ اعملها على جهاز Captain\'s chair.'],["Beginner? Use the captain's chair."]),
+ pose:{A:{a:[108,206],h:[112,140],t:-2,hd:[112,22],kb:'f'},B:{a:[150,170],h:[112,140],t:-6,hd:[112,22],kb:'u'},show:['hip'],eq:{pull:22},nofloor:1}}
+];
+const EXM={};EX.forEach(e=>EXM[e.id]=e);
+EX.forEach(e=>{if(typeof e.pose==='string')e.pose=EXM[e.pose].pose});
+
+/* ============ FIGURE ENGINE ============ */
+const LEN={shin:46,thigh:48,torso:58,ua:32,fa:30};
+const dirv=d=>{const r=d*Math.PI/180;return[Math.sin(r),-Math.cos(r)]};
+function ik(p0,p2,l1,l2,pref){
+  let dx=p2[0]-p0[0],dy=p2[1]-p0[1],d=Math.hypot(dx,dy);if(d<1e-6){dx=0;dy=1;d=1}
+  const ux=dx/d,uy=dy/d,max=l1+l2-0.01,min=Math.abs(l1-l2)+0.01;
+  const dm=Math.min(Math.max(d,min),max);
+  const end=d>max?[p0[0]+ux*dm,p0[1]+uy*dm]:p2;
+  const a=(l1*l1-l2*l2+dm*dm)/(2*dm),hh=Math.sqrt(Math.max(0,l1*l1-a*a));
+  const mx=p0[0]+ux*a,my=p0[1]+uy*a;
+  const s1=[mx-uy*hh,my+ux*hh],s2=[mx+uy*hh,my-ux*hh];
+  let j;
+  if(pref==='f')j=s1[0]>=s2[0]?s1:s2;else if(pref==='b')j=s1[0]<s2[0]?s1:s2;
+  else if(pref==='u')j=s1[1]<s2[1]?s1:s2;else j=s1[1]>=s2[1]?s1:s2;
+  return[j,end];
+}
+const lerp=(a,b,k)=>a+(b-a)*k, lerp2=(a,b,k)=>[lerp(a[0],b[0],k),lerp(a[1],b[1],k)];
+function solve(P){
+  const hip=P.h,td=dirv(P.t),sh=[hip[0]+td[0]*LEN.torso,hip[1]+td[1]*LEN.torso];
+  const [knee,ank]=ik(hip,P.a,LEN.thigh,LEN.shin,P.kb||'f');
+  const tg=P.hd?P.hd:[sh[0]+P.ho[0],sh[1]+P.ho[1]];
+  const [elb,hand]=ik(sh,tg,LEN.ua,LEN.fa,P.eb||'d');
+  const o={hip,sh,knee,ank,elb,hand,head:[sh[0]+td[0]*15,sh[1]+td[1]*15],toe:P.toe||[ank[0]+13,ank[1]+1],t:P.t};
+  if(P.a2){const[k2,a2]=ik(hip,P.a2,LEN.thigh,LEN.shin,P.kb2||'d');o.knee2=k2;o.ank2=a2;o.toe2=[a2[0]+13,a2[1]+1]}
+  return o;
+}
+function poseAt(pose,k){
+  const A=pose.A,Bp=pose.B||A,P={t:lerp(A.t||0,Bp.t??A.t??0,k),kb:k<.5?A.kb:(Bp.kb||A.kb),eb:k<.5?A.eb:(Bp.eb||A.eb),kb2:k<.5?A.kb2:(Bp.kb2||A.kb2)};
+  ['h','a','a2','toe'].forEach(n=>{if(A[n])P[n]=lerp2(A[n],Bp[n]||A[n],k)});
+  // hand: mix absolute/offset by resolving both to absolute
+  const sA=solveSh(A),sB=solveSh(Bp);
+  const hA=A.hd||[sA[0]+A.ho[0],sA[1]+A.ho[1]],hB=Bp.hd||[sB[0]+Bp.ho[0],sB[1]+Bp.ho[1]];
+  P.hd=lerp2(hA,hB,k);
+  return solve(P);
+}
+function solveSh(p){const td=dirv(p.t||0);return[p.h[0]+td[0]*LEN.torso,p.h[1]+td[1]*LEN.torso]}
+function ang(j,a,b){const v1=[a[0]-j[0],a[1]-j[1]],v2=[b[0]-j[0],b[1]-j[1]];const c=(v1[0]*v2[0]+v1[1]*v2[1])/(Math.hypot(...v1)*Math.hypot(...v2));return Math.acos(Math.max(-1,Math.min(1,c)))*180/Math.PI}
+function arc(j,a,b,r,lbl){
+  const n=v=>{const l=Math.hypot(v[0],v[1])||1;return[v[0]/l,v[1]/l]};
+  const u1=n([a[0]-j[0],a[1]-j[1]]),u2=n([b[0]-j[0],b[1]-j[1]]);
+  const cr=u1[0]*u2[1]-u1[1]*u2[0],sw=cr>0?1:0;
+  const p1=[j[0]+u1[0]*r,j[1]+u1[1]*r],p2=[j[0]+u2[0]*r,j[1]+u2[1]*r];
+  let m=n([u1[0]+u2[0],u1[1]+u2[1]]);if(!isFinite(m[0])||(Math.abs(u1[0]+u2[0])<.05&&Math.abs(u1[1]+u2[1])<.05))m=[-u1[1],u1[0]];
+  const lp=[j[0]+m[0]*(r+15),j[1]+m[1]*(r+15)];
+  return `<path d="M${p1[0].toFixed(1)},${p1[1].toFixed(1)} A${r},${r} 0 0 ${sw} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="none" stroke="#c6ff3d" stroke-width="2.2"/>`+
+  `<g transform="translate(${lp[0].toFixed(1)},${lp[1].toFixed(1)})"><rect x="-17" y="-9" width="34" height="17" rx="8" fill="#0f1115" stroke="#c6ff3d" stroke-width="1"/><text x="0" y="4.5" text-anchor="middle" font-size="11" font-weight="800" fill="#c6ff3d" font-family="Cairo,sans-serif">${lbl}</text></g>`;
+}
+function ln(a,b,w,c){return `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`}
+function plate(p){return `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="20" fill="#2b313d" stroke="#55607a" stroke-width="2"/><circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#8a93a3"/>`}
+function drawFig(ex,k,showAng){
+  const pose=ex.pose,o=poseAt(pose,k),eq=pose.eq||{},body='#e9ecf1',far='#6f7888';
+  let s='';
+  if(!pose.nofloor)s+=`<line x1="0" y1="187" x2="240" y2="187" stroke="#3a4150" stroke-width="2"/>`;
+  if(eq.bench){const[b1,b2,b3,b4]=eq.bench;s+=ln([b1,b2],[b3,b4],9,'#3a4150');const mx=(b1+b3)/2,my=(b2+b4)/2;if(my<180)s+=ln([mx,my],[mx,187],5,'#3a4150')}
+  if(eq.pull!=null)s+=ln([50,eq.pull],[190,eq.pull],5,'#55607a');
+  if(eq.dip){s+=ln([eq.dip[0]-20,eq.dip[1]],[eq.dip[0]+20,eq.dip[1]],6,'#55607a')+ln([eq.dip[0]+16,eq.dip[1]],[eq.dip[0]+16,210],4,'#3a4150')}
+  if(eq.cable)s+=`<line x1="${eq.cable[0]}" y1="${eq.cable[1]}" x2="${o.hand[0].toFixed(1)}" y2="${o.hand[1].toFixed(1)}" stroke="#7cd4ff" stroke-width="1.5" stroke-dasharray="4 3"/><circle cx="${eq.cable[0]}" cy="${eq.cable[1]}" r="5" fill="#55607a"/>`;
+  if(o.knee2)s+=ln(o.hip,o.knee2,9,far)+ln(o.knee2,o.ank2,8,far)+ln(o.ank2,o.toe2,6,far);
+  s+=ln(o.hip,o.knee,10,body)+ln(o.knee,o.ank,9,body)+ln(o.ank,o.toe,6,body);
+  s+=ln(o.hip,o.sh,13,body);
+  s+=`<circle cx="${o.head[0].toFixed(1)}" cy="${o.head[1].toFixed(1)}" r="10" fill="${body}"/>`;
+  s+=ln(o.sh,o.elb,7.5,body)+ln(o.elb,o.hand,6.5,body);
+  if(eq.bar==='hand')s+=plate(o.hand);
+  if(eq.bar==='shoulder')s+=plate([o.sh[0]-3,o.sh[1]-3]);
+  if(eq.bar==='hip'){const td=dirv(o.t);s+=plate([o.hip[0]+(-td[1])*0-2,o.hip[1]-16])}
+  if(eq.db)s+=`<rect x="${(o.hand[0]-9).toFixed(1)}" y="${(o.hand[1]-4).toFixed(1)}" width="18" height="8" rx="2" fill="#55607a"/><rect x="${(o.hand[0]-11).toFixed(1)}" y="${(o.hand[1]-7).toFixed(1)}" width="5" height="14" rx="2" fill="#8a93a3"/><rect x="${(o.hand[0]+6).toFixed(1)}" y="${(o.hand[1]-7).toFixed(1)}" width="5" height="14" rx="2" fill="#8a93a3"/>`;
+  if(eq.pad)s+=`<circle cx="${o.ank[0].toFixed(1)}" cy="${(o.ank[1]-6).toFixed(1)}" r="6" fill="#55607a"/>`;
+  [o.hip,o.knee,o.sh,o.elb].forEach(p=>s+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#0f1115"/>`);
+  if(showAng)(pose.show||[]).forEach(j=>{
+    let v;
+    if(j==='knee')v=[o.knee,o.hip,o.ank];else if(j==='hip')v=[o.hip,o.knee,o.sh];else if(j==='elbow')v=[o.elb,o.sh,o.hand];else if(j==='knee2'&&o.knee2)v=[o.knee2,o.hip,o.ank2];
+    if(v)s+=arc(v[0],v[1],v[2],14,r0(ang(...v))+'°');
+  });
+  return `<svg viewBox="0 -42 240 254" xmlns="http://www.w3.org/2000/svg">${s}</svg>`;
+}
+
+/* ============ PROGRAMS ============ */
+const D=(ar,en,ex)=>({n:B(ar,en),ex});
+const PROG={
+beg:{n:B('مبتدئ — Full Body ٣ أيام','Beginner — Full Body, 3 days'),
+ note:B('٣ أيام في الأسبوع مع يوم راحة بينهم (مثلاً سبت/اثنين/أربع). بدّل بين A و B. خلي ٢–٣ عدات في الخزان (RIR 2–3). مدة البرنامج ٨–١٢ أسبوع.','3 non-consecutive days per week (e.g. Sat/Mon/Wed), alternating A and B. Leave 2–3 reps in reserve (RIR 2–3). Run it for 8–12 weeks.'),
+ days:[D('اليوم A','Day A',[['squat','3×8-10','2m'],['bench','3×8-10','2m'],['cablerow','3×10-12','90s'],['lateral','2×12-15','60s'],['plank','3×30s','60s']]),
+       D('اليوم B','Day B',[['rdl','3×8-10','2m'],['ohp','3×8-10','2m'],['pullup','3×8-10','90s'],['lunge','2×10','90s'],['curl','2×10-12','60s'],['pushdown','2×10-12','60s']])]},
+int:{n:B('متوسط — Upper/Lower ٤ أيام','Intermediate — Upper/Lower, 4 days'),
+ note:B('٤ أيام: علوي/سفلي/راحة/علوي/سفلي. اليوم ١ قوة (عدات قليلة)، اليوم ٢ تضخيم (عدات أكتر). RIR 1–2. أسبوع خفيف (Deload) كل ٦–٨ أسابيع.','4 days: Upper/Lower/rest/Upper/Lower. Day 1 is strength (low reps), Day 2 hypertrophy (higher reps). RIR 1–2. Deload every 6–8 weeks.'),
+ days:[D('علوي ١ (قوة)','Upper 1 (Strength)',[['bench','4×5-6','3m'],['row','4×6-8','2-3m'],['ohp','3×6-8','2m'],['pullup','3×6-10','2m'],['dips','2×8-12','90s'],['curl','2×10-12','60s']]),
+       D('سفلي ١ (قوة)','Lower 1 (Strength)',[['squat','4×5-6','3m'],['rdl','3×8','2m'],['lunge','3×10','90s'],['legext','2×12-15','60s'],['calf','4×10-12','60s'],['kneeraise','3×12','60s']]),
+       D('علوي ٢ (تضخيم)','Upper 2 (Hypertrophy)',[['incline','4×8-12','2m'],['cablerow','3×10-12','90s'],['pullup','3×10-12','90s'],['lateral','4×12-20','60s'],['facepull','3×15-20','60s'],['pushdown','3×12-15','60s'],['hammer','3×10-12','60s']]),
+       D('سفلي ٢ (تضخيم)','Lower 2 (Hypertrophy)',[['deadlift','3×4-5','3m'],['hipthrust','4×8-12','2m'],['squat','3×10','2m'],['legext','3×15','60s'],['calf','4×15','60s'],['plank','3×45s','60s']])]},
+adv:{n:B('محترف — Push/Pull/Legs ٦ أيام','Advanced — Push/Pull/Legs, 6 days'),
+ note:B('دفع/سحب/رجل ×٢ في الأسبوع مع يوم راحة. آخر مجموعة لكل تمرين RIR 0–1. ١٥–٢٠ مجموعة لكل عضلة أسبوعياً. Deload كل ٥–٦ أسابيع. مناسب بعد سنة تمرين منتظم على الأقل.','Push/Pull/Legs twice a week + 1 rest day. Last set of each exercise at RIR 0–1. 15–20 weekly sets per muscle. Deload every 5–6 weeks. Best after at least a year of consistent training.'),
+ days:[D('دفع (Push)','Push',[['bench','4×5-8','3m'],['incline','3×8-12','2m'],['ohp','3×8-10','2m'],['lateral','4×12-20','60s'],['dips','3×8-12','90s'],['pushdown','3×10-15','60s']]),
+       D('سحب (Pull)','Pull',[['deadlift','3×3-5','3m'],['pullup','4×6-10','2m'],['row','4×6-10','2m'],['cablerow','3×10-12','90s'],['facepull','3×15-20','60s'],['curl','3×8-12','60s'],['hammer','2×10-15','60s']]),
+       D('رجل (Legs)','Legs',[['squat','4×5-8','3m'],['rdl','3×8-10','2m'],['lunge','3×10','90s'],['hipthrust','3×8-12','2m'],['legext','3×12-15','60s'],['calf','4×10-15','60s'],['kneeraise','3×12-15','60s']])]}
+};
+
+const TIPS=[
+B(['التحميل التدريجي (Double progression)','اختار مدى عدات (مثلاً ٨–١٢). لما تكمّل كل المجموعات عند أعلى رقم بتكنيك سليم، زوّد الوزن ٢.٥ كجم (أو ١–٢ كجم للدمبل) وارجع لأقل رقم. ده أهم قانون في الجيم.'],['Progressive overload (double progression)','Pick a rep range (e.g. 8–12). When you hit the top on all sets with clean form, add 2.5 kg (1–2 kg for dumbbells) and drop back to the bottom of the range. The most important rule in the gym.']),
+B(['عدات في الخزان (RIR)','وقّف المجموعة وانت لسه قادر على ١–٣ عدات. المبتدئ: ٢–٣. المحترف: ٠–٢ في آخر مجموعة. التمرين للفشل كل مرة بيبطّأ الاستشفاء.'],['Reps in reserve (RIR)','End each set with 1–3 reps left. Beginners: 2–3. Advanced: 0–2 on the last set. Training to failure every set slows recovery.']),
+B(['السرعة (Tempo)','النزول ٢–٣ ثواني متحكم، والطلوع قوي. الزخم (Momentum) بيشيل الشغل من العضلة.'],['Tempo','Lower in 2–3 seconds under control, lift with intent. Momentum steals work from the muscle.']),
+B(['المدى الكامل','المدى الكامل — خصوصاً الجزء اللي العضلة فيه متمددة — بيدّي نمو أكتر من نص العدات.'],['Full range of motion','Full range — especially the stretched part — builds more muscle than half reps.']),
+B(['الراحة بين المجموعات','التمارين المركبة: ٢–٣ دقايق. العزل: ٦٠–٩٠ ثانية. الراحة القصيرة أوي بتقلل الأداء والنتيجة.'],['Rest between sets','Compound lifts: 2–3 min. Isolation: 60–90 s. Resting too little cuts performance and results.']),
+B(['الحجم الأسبوعي','١٠–٢٠ مجموعة فعالة لكل عضلة في الأسبوع. المبتدئ يبدأ من ١٠ ويزوّد بالتدريج.'],['Weekly volume','10–20 hard sets per muscle per week. Beginners start around 10 and build up.']),
+B(['التسخين الصح','٥ دقايق كارديو خفيف + حركات ديناميك، وبعدها مجموعات تسخين متدرجة: ٥٠٪ ×٨، ٧٠٪ ×٥، ٨٥٪ ×٢.'],['Proper warm-up','5 min light cardio + dynamic moves, then ramp-up sets: 50% ×8, 70% ×5, 85% ×2.']),
+B(['النوم والخطوات','نوم ٧–٩ ساعات و ٧٠٠٠–١٠٠٠٠ خطوة يومياً بيفرقوا في النتيجة زي التمرين بالظبط.'],['Sleep & steps','7–9 hours of sleep and 7,000–10,000 daily steps matter as much as the training itself.']),
+B(['الأسبوع الخفيف (Deload)','كل ٥–٨ أسابيع: نص عدد المجموعات بنفس الأوزان تقريباً، عشان المفاصل والجهاز العصبي يستشفوا.'],['Deload','Every 5–8 weeks: halve your sets at similar weights so joints and nervous system recover.']),
+B(['التمرين في حر دبي','في الصيف: الكارديو جوه الجيم أو بدري الصبح. اشرب مية قبل وأثناء وبعد التمرين، وأملاح (Electrolytes) لو بتعرق كتير.'],['Training in Dubai heat','In summer, do cardio indoors or early morning. Drink before, during and after training, and add electrolytes if you sweat heavily.']),
+B(['سجّل كل حاجة','سجّل أوزانك هنا كل تمرين. اللي مبيتقاسش مبيتحسنش، والتسجيل هو اللي بيوريك إمتى تزوّد.'],['Log everything','Log your weights here every session. What gets measured gets improved — logs tell you when to add weight.'])
+];
+const NTIPS=[
+B('بروتين ٢٥–٤٠ جم في كل وجبة (فراخ، بيض، تونة، زبادي يوناني، فول، عدس).','25–40 g of protein per meal (chicken, eggs, tuna, Greek yogurt, foul, lentils).'),
+B('نص الطبق خضار — بيشبّع بسعرات قليلة.','Fill half your plate with vegetables — filling and low-calorie.'),
+B('الزيت والسمنة أكبر مصدر سعرات مخفي في الأكل المصري والخليجي — قيس بالمعلقة.','Oil and ghee are the biggest hidden calories in Egyptian and Gulf food — measure by the spoon.'),
+B('متشربش سعراتك: العصاير والمشروبات الغازية والقهوة بالسكر والكريمة.','Don\'t drink your calories: juices, sodas, sugary or creamy coffee.'),
+B('اتوزن ٣–٧ مرات في الأسبوع الصبح وخد المتوسط الأسبوعي، مش رقم يوم واحد.','Weigh yourself 3–7 mornings a week and use the weekly average, not one day.'),
+B('لو الوزن مااتحركش ٢–٣ أسابيع، عدّل ١٠٠–٢٠٠ سعر بس.','If your weight hasn\'t moved in 2–3 weeks, adjust by just 100–200 kcal.')
+];
+
+/* ============ FOODS (approx per serving) ============ */
+const F=(id,c,ar,en,sa,se,k,p,cb,f)=>({id,c,n:B(ar,en),s:B(sa,se),k,p,cb,f});
+const FOODS=[
+F('ful','eg','فول مدمس (سادة)','Ful medames (plain)','كوب ≈ ٢٥٠ جم','1 cup ≈ 250 g',275,19,45,1),
+F('tameya','eg','طعمية','Ta\'ameya (falafel)','قرص ≈ ٣٠ جم','1 piece ≈ 30 g',100,4,10,5),
+F('baladi','eg','عيش بلدي','Baladi bread','رغيف ≈ ٩٠ جم','1 loaf ≈ 90 g',240,8,48,2),
+F('koshari','eg','كشري','Koshari','طبق وسط ≈ ٣٥٠ جم','medium plate ≈ 350 g',650,20,110,15),
+F('molokhia','eg','ملوخية','Molokhia','كوب','1 cup',100,4,8,6),
+F('mahshi','eg','محشي (كرنب/كوسة/ورق عنب)','Mahshi (stuffed veg)','كوب','1 cup',250,5,40,8),
+F('feta','eg','جبنة بيضا','White feta cheese','٣٠ جم','30 g',80,4,1,6),
+F('kofta','eg','كفتة مشوية','Grilled kofta','١٠٠ جم','100 g',250,18,3,19),
+F('tilapia','eg','سمك بلطي مشوي','Grilled tilapia','١٠٠ جم','100 g',128,26,0,3),
+F('lentil','eg','شوربة عدس','Lentil soup','كوب','1 cup',160,9,26,3),
+F('machboos','gulf','مجبوس دجاج','Chicken machboos','طبق ≈ ٤٠٠ جم','plate ≈ 400 g',650,35,75,22),
+F('shawarma','gulf','ساندوتش شاورما دجاج','Chicken shawarma sandwich','ساندوتش عادي','regular sandwich',450,25,40,20),
+F('khubz','gulf','خبز عربي','Arabic bread (khubz)','رغيف وسط ≈ ٦٠ جم','medium ≈ 60 g',165,6,33,1),
+F('hummus','gulf','حمص بالطحينة','Hummus','٢ معلقة ≈ ٣٠ جم','2 tbsp ≈ 30 g',50,2,4,3),
+F('labneh','gulf','لبنة','Labneh','٢ معلقة ≈ ٣٠ جم','2 tbsp ≈ 30 g',55,3,2,5),
+F('dates','gulf','تمر','Dates','تمرة ≈ ٨ جم','1 date ≈ 8 g',23,0,6,0),
+F('laban','gulf','لبن (لايت)','Laban (low fat)','كوب ٢٤٠ مل','240 ml',95,8,12,2),
+F('egg','basic','بيض','Egg','بيضة كبيرة','1 large',72,6,0,5),
+F('chicken','basic','صدر فراخ مشوي','Grilled chicken breast','١٠٠ جم مطبوخ','100 g cooked',165,31,0,4),
+F('rice','basic','رز أبيض مطبوخ','White rice, cooked','كوب ≈ ١٦٠ جم','1 cup ≈ 160 g',205,4,45,0),
+F('pasta','basic','مكرونة مسلوقة','Pasta, cooked','كوب','1 cup',220,8,43,1),
+F('potato','basic','بطاطس مسلوقة','Boiled potatoes','١٥٠ جم','150 g',130,3,30,0),
+F('sweetp','basic','بطاطا مشوية','Baked sweet potato','١٥٠ جم','150 g',135,3,31,0),
+F('oats','basic','شوفان','Oats (dry)','٥٠ جم','50 g',190,7,33,3),
+F('greek','basic','زبادي يوناني لايت','Greek yogurt, low fat','١٧٠ جم','170 g',100,17,6,1),
+F('tuna','basic','تونة مية','Tuna in water','علبة مصفّاة ≈ ١٢٠ جم','1 can drained ≈ 120 g',140,30,0,1),
+F('salmon','basic','سلمون','Salmon, cooked','١٠٠ جم','100 g',206,22,0,13),
+F('beef','basic','لحمة حمرا قليلة الدهن','Lean beef, cooked','١٠٠ جم','100 g',215,26,0,12),
+F('cottage','basic','جبنة قريش','Cottage cheese','١٠٠ جم','100 g',98,11,3,4),
+F('milk','basic','لبن ٢٪','Milk 2%','كوب ٢٤٠ مل','240 ml',122,8,12,5),
+F('whey','basic','واي بروتين','Whey protein','سكوب ≈ ٣٠ جم','1 scoop ≈ 30 g',120,24,3,2),
+F('banana','basic','موزة','Banana','وسط','medium',105,1,27,0),
+F('apple','basic','تفاحة','Apple','وسط','medium',95,0,25,0),
+F('almonds','basic','لوز','Almonds','٣٠ جم','30 g',170,6,6,15),
+F('pb','basic','زبدة فول سوداني','Peanut butter','معلقة كبيرة ١٦ جم','1 tbsp 16 g',95,4,4,8),
+F('oil','basic','زيت زيتون','Olive oil','معلقة كبيرة','1 tbsp',120,0,0,14),
+F('salad','basic','سلطة خضرا (من غير صوص)','Green salad (no dressing)','طبق','1 bowl',40,2,8,0)
+];
+const allFoods=()=>FOODS.concat(S.custom||[]);
+const FM=id=>allFoods().find(f=>f.id===id);
+const SAMPLE=[['bf','egg',3],['bf','baladi',1],['bf','feta',1],['bf','salad',.5],['lu','chicken',1.5],['lu','rice',1],['lu','salad',1],['lu','oil',.5],['sn','greek',1],['sn','banana',1],['sn','almonds',.5],['di','ful',1],['di','oil',.5],['di','khubz',1]];
+
+/* ============ NUTRITION CALC ============ */
+function targets(){
+  const p=S.profile;if(!p)return null;
+  const bmr=10*p.w+6.25*p.h-5*p.age+(p.sex==='m'?5:-161);
+  const tdee=bmr*({1:1.2,2:1.375,3:1.55,4:1.725}[p.act]||1.375);
+  const kcal=p.goal==='cut'?tdee*0.8:p.goal==='bulk'?tdee*1.1:tdee;
+  const prot=p.w*(p.goal==='cut'?2.0:1.8);
+  const fat=Math.max(kcal*0.25/9,p.w*0.6);
+  const carb=Math.max(0,(kcal-prot*4-fat*9)/4);
+  const water=p.w*0.035+0.75;
+  const low=kcal<(p.sex==='m'?1500:1200);
+  return{bmr,tdee,kcal,prot,fat,carb,water,low};
+}
+function dayTotals(d){const L0=(S.food[d]||[]);const o={k:0,p:0,cb:0,f:0};L0.forEach(e=>{const f=FM(e.id);if(f){o.k+=f.k*e.q;o.p+=f.p*e.q;o.cb+=f.cb*e.q;o.f+=f.f*e.q}});return o}
+
+/* ============ VIEWS ============ */
+const VIEWS=['home','programs','exercises','food','profile'];
+const ICON={home:'🏠',programs:'📋',exercises:'🏋️',food:'🥗',profile:'👤'};
+let view=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):'home';
+let exFilter='all',exQ='',foodCat='eg',foodQ='',foodDate=today(),openDay=null,resetArm=false;
+
+function nav(){ $('#nav').innerHTML=VIEWS.map(v=>`<button class="${v===view?'on':''}" data-act="go" data-v="${v}"><span class="ic">${ICON[v]}</span>${t(v)}</button>`).join('') }
+function render(){
+  document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ar'?'rtl':'ltr';
+  $('#langBtn').textContent=S.lang==='ar'?'EN':'عربي';
+  nav();
+  $('#main').innerHTML=({home:vHome,programs:vProg,exercises:vEx,food:vFood,profile:vProfile})[view]();
+  if(view==='food'){const i=$('#fq');if(i&&foodQ){i.focus();i.setSelectionRange(foodQ.length,foodQ.length)}}
+  if(view==='exercises'){const i=$('#exq');if(i&&exQ){i.focus();i.setSelectionRange(exQ.length,exQ.length)}}
+}
+function bars(tot,tg){
+  const row=(lb,v,m,u)=>`<div class="row between"><span>${lb}</span><span class="mut" style="direction:ltr">${r0(v)} / ${r0(m)} ${u}</span></div><div class="bar"><i style="width:${Math.min(100,m?v/m*100:0)}%;${v>m*1.05?'background:var(--warn)':''}"></i></div>`;
+  return row(t('kcal'),tot.k,tg.kcal,'kcal')+row(t('prot'),tot.p,tg.prot,'g')+row(t('carb'),tot.cb,tg.carb,'g')+row(t('fat'),tot.f,tg.fat,'g');
+}
+function weekCount(){const now=new Date();const st=new Date(now);st.setDate(now.getDate()-6);const s=st.toISOString().slice(0,10);return (S.done||[]).filter(d=>d>=s).length}
+function vHome(){
+  const P=PROG[S.prog],di=(S.next[S.prog]||0)%P.days.length,d=P.days[di],tg=targets();
+  let h=`<div class="card"><h2>${t('hello')}</h2><div class="mut">${L(P.n)}</div>
+  <h3>${t('nextW')}: ${L(d.n)}</h3><div class="list">${d.ex.map(e=>`<div class="it" data-act="ex" data-id="${e[0]}"><span>${L(EXM[e[0]].n)}</span><span class="rx">${e[1]}</span></div>`).join('')}</div>
+  <div class="row" style="margin-top:10px"><button class="btn" data-act="done">${t('doneW')}</button><span class="mut">${t('weekW')}: <b class="ok">${weekCount()}</b></span></div></div>`;
+  if(tg){const tot=dayTotals(today());h+=`<div class="card"><h2>${t('foodLog')}</h2>${bars(tot,tg)}<div class="mut">💧 ${t('water')}: ${tg.water.toFixed(1)} ${t('litre')}</div></div>`}
+  else h+=`<div class="card"><p>${t('setup')}</p><button class="btn" data-act="go" data-v="profile">${t('goSetup')}</button></div>`;
+  h+=`<h2 style="margin:16px 4px 8px">🧠 ${t('tips')}</h2>`+TIPS.map(x=>`<details><summary>${esc(L(x)[0])}</summary><p style="margin:6px 0 0">${esc(L(x)[1])}</p></details>`).join('');
+  h+=`<div class="card warn" style="margin-top:12px;font-size:13px">⚠️ ${t('disc')}</div>`;
+  return h;
+}
+function vProg(){
+  const P=PROG[S.prog];
+  let h=`<div class="chips">${['beg','int','adv'].map(l=>`<span class="chip ${S.prog===l?'on':''}" data-act="lvl" data-l="${l}">${t(l)}</span>`).join('')}</div>
+  <div class="card"><h2>${L(P.n)}</h2><p class="mut" style="margin:0">${L(P.note)}</p>${S.prog==='beg'?`<p class="ok" style="margin:6px 0 0;font-size:13px">${t('weekly')}</p>`:''}</div>`;
+  P.days.forEach((d,i)=>{h+=`<div class="card"><div class="row between"><h2 style="margin:0">${L(d.n)}</h2><span class="tag">${d.ex.length}</span></div>
+  <div class="row between mut" style="font-size:12px;margin-top:6px"><span></span><span>${t('sets')} · ${t('rest')}</span></div>
+  <div class="list">${d.ex.map(e=>`<div class="it" data-act="ex" data-id="${e[0]}"><span>${L(EXM[e[0]].n)}</span><span><span class="rx">${e[1]}</span> <span class="mut" style="direction:ltr;display:inline-block">· ${e[2]}</span></span></div>`).join('')}</div></div>`});
+  h+=`<div class="card mut" style="font-size:13px">📈 ${t('progHint')}</div>`;
+  return h;
+}
+function vEx(){
+  const gs=['all','legs','chest','back','shoulders','arms','core'];
+  const q=exQ.trim().toLowerCase();
+  const list=EX.filter(e=>(exFilter==='all'||e.g===exFilter)&&(!q||(e.n.ar+' '+e.n.en).toLowerCase().includes(q)));
+  return `<input id="exq" placeholder="${t('search')}" value="${esc(exQ)}" data-in="exq" style="margin-bottom:10px">
+  <div class="chips">${gs.map(g=>`<span class="chip ${exFilter===g?'on':''}" data-act="exf" data-g="${g}">${t(g)}</span>`).join('')}</div>
+  <div class="grid">${list.map(e=>`<div class="ex" data-act="ex" data-id="${e.id}">${e.pose?drawFig(e,1,false):'<svg viewBox="0 -42 240 254"><text x="120" y="90" text-anchor="middle" font-size="60">💪</text></svg>'}<div class="nm">${L(e.n)}</div><span class="tag">${t(e.g)}</span></div>`).join('')}</div>`;
+}
+function vFood(){
+  const tg=targets(),tot=dayTotals(foodDate),items=S.food[foodDate]||[];
+  let h=`<div class="card"><div class="row between"><button class="btn sec sm" data-act="fd" data-d="-1">${S.lang==='ar'?'›':'‹'}</button><b style="direction:ltr">${foodDate===today()?t('todaySets')+' · ':''}${foodDate}</b><button class="btn sec sm" data-act="fd" data-d="1">${S.lang==='ar'?'‹':'›'}</button></div>
+  ${tg?`<div class="kpi" style="margin:10px 0"><div><b>${r0(tg.kcal-tot.k)}</b><span>${t('kcal')} ${t('left')}</span></div><div><b>${r0(tot.p)}</b><span>${t('prot')} g</span></div><div><b>${r0(tot.cb)}</b><span>${t('carb')} g</span></div><div><b>${r0(tot.f)}</b><span>${t('fat')} g</span></div></div>${bars(tot,tg)}`:`<p class="mut">${t('setup')}</p>`}
+  ${['bf','lu','di','sn'].map(m=>{const its=items.map((e,i)=>({...e,i})).filter(e=>e.m===m);if(!its.length)return'';return `<h3>${t(m)}</h3><div class="list">${its.map(e=>{const f=FM(e.id);if(!f)return'';return `<div class="it"><span>${esc(L(f.n))} <span class="mut" style="direction:ltr;display:inline-block">×${e.q}</span></span><span class="row"><span class="mut" style="direction:ltr">${r0(f.k*e.q)} kcal · ${r0(f.p*e.q)}g P</span><button class="del" data-act="fdel" data-i="${e.i}">✕</button></span></div>`}).join('')}</div>`}).join('')||`<p class="mut">${t('empty')}</p>`}
+  </div>`;
+  const q=foodQ.trim().toLowerCase();
+  const fl=allFoods().filter(f=>(q?true:(foodCat==='mine'?f.c==='mine':f.c===foodCat))&&(!q||(L(f.n)+' '+f.n.ar+' '+f.n.en).toLowerCase().includes(q)));
+  h+=`<div class="card"><h2>${t('addFood')}</h2><input id="fq" placeholder="${t('search')}" value="${esc(foodQ)}" data-in="fq">
+  <div class="chips" style="margin-top:8px">${['eg','gulf','basic','mine'].map(c=>`<span class="chip ${foodCat===c&&!q?'on':''}" data-act="fc" data-c="${c}">${t(c)}</span>`).join('')}</div>
+  <div class="list">${fl.map(f=>`<div class="it" data-act="fpick" data-id="${f.id}"><span>${esc(L(f.n))}<br><span class="mut">${esc(L(f.s))}</span></span><span class="mut" style="direction:ltr;text-align:end;white-space:nowrap">${f.k} kcal<br>${f.p}P · ${f.cb}C · ${f.f}F</span></div>`).join('')||'<p class="mut">—</p>'}</div>
+  <p class="mut" style="font-size:12px">${t('est')}</p></div>`;
+  h+=`<details><summary>➕ ${t('custom')}</summary>
+  <label>${t('name')}</label><input id="cn"><label>${t('serv')}</label><input id="cs" placeholder="100 g">
+  <div class="f2"><div><label>kcal</label><input id="ck" type="number" inputmode="decimal"></div><div><label>${t('prot')} g</label><input id="cp" type="number" inputmode="decimal"></div><div><label>${t('carb')} g</label><input id="cc" type="number" inputmode="decimal"></div><div><label>${t('fat')} g</label><input id="cf" type="number" inputmode="decimal"></div></div>
+  <button class="btn" style="margin-top:10px" data-act="csave">${t('saveF')}</button></details>`;
+  const st={k:0,p:0,cb:0,f:0};SAMPLE.forEach(([m,id,qq])=>{const f=FM(id);st.k+=f.k*qq;st.p+=f.p*qq;st.cb+=f.cb*qq;st.f+=f.f*qq});
+  h+=`<details><summary>🍽️ ${t('sample')}</summary>${['bf','lu','sn','di'].map(m=>`<h3>${t(m)}</h3><ul class="b">${SAMPLE.filter(x=>x[0]===m).map(([_,id,qq])=>{const f=FM(id);return `<li>${esc(L(f.n))} — ${esc(L(f.s))} ×${qq}</li>`}).join('')}</ul>`).join('')}
+  <p><b style="direction:ltr;display:inline-block">${r0(st.k)} kcal · ${r0(st.p)}g P · ${r0(st.cb)}g C · ${r0(st.f)}g F</b></p>
+  ${tg?`<p class="ok">${t('scale')} <b style="direction:ltr;display:inline-block">×${(tg.kcal/st.k).toFixed(2)}</b></p>`:''}</details>`;
+  h+=`<details><summary>⭐ ${t('nTips')}</summary><ul class="b">${NTIPS.map(x=>`<li>${esc(L(x))}</li>`).join('')}</ul></details>`;
+  return h;
+}
+function vProfile(){
+  const p=S.profile||{sex:'m',age:28,h:175,w:80,act:3,goal:'cut'},tg=targets();
+  const opt=(v,cur,lb)=>`<option value="${v}" ${String(v)===String(cur)?'selected':''}>${lb}</option>`;
+  let h=`<div class="card"><h2>🔥 ${t('calc')}</h2>
+  <div class="f2"><div><label>${t('sex')}</label><select id="psex">${opt('m',p.sex,t('male'))}${opt('f',p.sex,t('female'))}</select></div>
+  <div><label>${t('age')}</label><input id="page" type="number" inputmode="numeric" value="${p.age}"></div>
+  <div><label>${t('height')}</label><input id="ph" type="number" inputmode="numeric" value="${p.h}"></div>
+  <div><label>${t('weight')}</label><input id="pw" type="number" inputmode="decimal" value="${p.w}"></div></div>
+  <label>${t('act')}</label><select id="pact">${[1,2,3,4].map(i=>opt(i,p.act,t('a'+i))).join('')}</select>
+  <label>${t('goal')}</label><select id="pgoal">${opt('cut',p.goal,t('cut'))}${opt('main',p.goal,t('main'))}${opt('bulk',p.goal,t('bulk'))}</select>
+  <button class="btn" style="margin-top:12px;width:100%" data-act="psave">${t('saveP')}</button></div>`;
+  if(tg)h+=`<div class="card"><div class="row between"><span class="mut">${t('bmr')}</span><b style="direction:ltr">${r0(tg.bmr)} kcal</b></div>
+  <div class="row between"><span class="mut">${t('tdee')}</span><b style="direction:ltr">${r0(tg.tdee)} kcal</b></div>
+  <h3>${t('yourT')}</h3><div class="kpi"><div><b>${r0(tg.kcal)}</b><span>kcal</span></div><div><b>${r0(tg.prot)}g</b><span>${t('prot')}</span></div><div><b>${r0(tg.carb)}g</b><span>${t('carb')}</span></div><div><b>${r0(tg.fat)}g</b><span>${t('fat')}</span></div></div>
+  <p class="mut" style="margin:8px 0 0">💧 ${t('water')}: ${tg.water.toFixed(1)} ${t('litre')} · ${t('rate')}</p>
+  ${tg.low?`<p style="color:var(--warn)">⚠️ ${t('lowWarn')}</p>`:''}
+  <p class="mut" style="font-size:12px;margin:6px 0 0">Mifflin-St Jeor</p></div>`;
+  h+=`<div class="card"><h2>⚙️</h2><label>${t('level')}</label><div class="chips">${['beg','int','adv'].map(l=>`<span class="chip ${S.prog===l?'on':''}" data-act="lvl" data-l="${l}">${t(l)}</span>`).join('')}</div>
+  <label>${t('lang')}</label><div class="chips"><span class="chip ${S.lang==='ar'?'on':''}" data-act="setlang" data-l="ar">العربية</span><span class="chip ${S.lang==='en'?'on':''}" data-act="setlang" data-l="en">English</span></div></div>
+  <div class="card"><h2>📲 ${t('install')}</h2><p class="mut" style="margin:0">${t('instTx')}</p></div>
+  <div class="card"><h2>💾 ${t('backup')}</h2><button class="btn sec" data-act="copy">${t('copy')}</button>
+  <label>${t('imp')}</label><textarea id="impx" rows="3" style="direction:ltr"></textarea><button class="btn sec" style="margin-top:6px" data-act="imp">${t('impBtn')}</button>
+  <div style="margin-top:14px"><button class="btn sec" style="color:var(--bad)" data-act="reset">${resetArm?t('sure'):t('reset')}</button></div></div>
+  <div class="card warn" style="font-size:13px">⚠️ ${t('disc')}</div>`;
+  return h;
+}
+
+/* ============ EXERCISE SHEET ============ */
+let anim=null,playing=true,curEx=null,phase=0,lastTs=0;
+function openEx(id){
+  curEx=EXM[id];playing=true;phase=0;
+  const e=curEx;
+  const logs=(S.logs[id]||[]);
+  $('#pan').innerHTML=`<div class="row between" style="margin-bottom:8px"><div><h2 style="margin:0">${L(e.n)}</h2><span class="tag">${t(e.g)}</span></div><button class="x" data-act="close">✕</button></div>
+  ${e.pose?`<div class="fig"><div id="figbox">${drawFig(e,0,true)}</div><div class="row between" style="padding:4px 8px 6px"><span class="mut" id="phl">${t('start')}</span><button class="btn sec sm" data-act="pp" id="ppb">${t('play')}</button></div></div>`:`<div class="card mut">${t('noFig')}</div>`}
+  <p style="margin:10px 0 4px"><b>${t('muscles')}:</b> ${esc(L(e.m))}</p>
+  <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(e.q)}" target="_blank" rel="noopener">${t('video')}</a>
+  ${[['s','stepsH','🧭'],['a','anglesH','📐'],['x','mistH','❌'],['p','proH','🏆']].map(([k,lb,ic])=>`<h3>${ic} ${t(lb)}</h3><ul class="b">${L(e[k]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}
+  <div class="card" style="margin-top:12px"><h2>📝 ${t('logH')}</h2>
+  <div class="f2"><div><label>${t('kg')}</label><input id="lw" type="number" inputmode="decimal" value="${logs.length?logs[logs.length-1].w:''}"></div><div><label>${t('reps')}</label><input id="lr" type="number" inputmode="numeric" value="${logs.length?logs[logs.length-1].r:''}"></div></div>
+  <button class="btn" style="margin-top:8px;width:100%" data-act="lset">${t('addSet')}</button><div id="lhist">${logHist(id)}</div>
+  <p class="mut" style="font-size:12.5px;margin:8px 0 0">📈 ${t('progHint')}</p></div>`;
+  $('#sheet').classList.add('open');
+  if(e.pose){cancelAnimationFrame(anim);lastTs=0;anim=requestAnimationFrame(tick)}
+}
+function logHist(id){
+  const logs=S.logs[id]||[];if(!logs.length)return `<p class="mut">${t('noLog')}</p>`;
+  const by={};logs.forEach((l,i)=>{(by[l.d]=by[l.d]||[]).push({...l,i})});
+  const days=Object.keys(by).sort().reverse();const td=today();
+  const best=Math.max(...logs.map(l=>l.w*(1+l.r/30)));
+  let h='';
+  if(by[td])h+=`<h3>${t('todaySets')}</h3><div class="sets">${by[td].map(l=>`<span>${l.w}kg × ${l.r} <button class="del" data-act="ldel" data-i="${l.i}">✕</button></span>`).join('')}</div>`;
+  const last=days.find(d=>d!==td);
+  if(last)h+=`<h3>${t('lastS')} <span class="mut" style="direction:ltr">${last}</span></h3><div class="sets">${by[last].map(l=>`<span>${l.w}kg × ${l.r}</span>`).join('')}</div>`;
+  h+=`<p class="mut" style="margin:8px 0 0">${t('best')}: <b class="ok" style="direction:ltr">${r0(best)} kg</b></p>`;
+  return h;
+}
+function tick(ts){
+  if(!curEx||!$('#sheet').classList.contains('open'))return;
+  if(!lastTs)lastTs=ts;const dt=(ts-lastTs)/1000;lastTs=ts;
+  if(playing)phase=(phase+dt/3.6)%1;
+  // 0-.35 go, .35-.5 hold, .5-.85 back, .85-1 hold
+  let k=phase<.35?phase/.35:phase<.5?1:phase<.85?1-(phase-.5)/.35:0;
+  k=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+  const fb=$('#figbox');if(fb)fb.innerHTML=drawFig(curEx,k,true);
+  const pl=$('#phl');if(pl)pl.textContent=k>.98?t('end'):k<.02?t('start'):'…';
+  anim=requestAnimationFrame(tick);
+}
+function closeSheet(){$('#sheet').classList.remove('open');cancelAnimationFrame(anim);curEx=null;render()}
+
+/* food picker */
+function openFood(id){
+  const f=FM(id);let q=1,m=(()=>{const h=new Date().getHours();return h<11?'bf':h<16?'lu':h<20?'sn':'di'})();
+  const draw=()=>{$('#pan').innerHTML=`<div class="row between"><h2 style="margin:0">${esc(L(f.n))}</h2><button class="x" data-act="close">✕</button></div>
+  <p class="mut">${esc(L(f.s))} · ${f.k} kcal · ${f.p}P ${f.cb}C ${f.f}F</p>
+  <label>${t('serv')}</label><div class="qty"><button data-act="qm">−</button><b>×${q}</b><button data-act="qp">+</button></div>
+  <label>${t('meal')}</label><div class="chips">${['bf','lu','di','sn'].map(x=>`<span class="chip ${x===m?'on':''}" data-act="qmeal" data-m="${x}">${t(x)}</span>`).join('')}</div>
+  <p><b style="direction:ltr;display:inline-block">${r0(f.k*q)} kcal · ${r0(f.p*q)}g P · ${r0(f.cb*q)}g C · ${r0(f.f*q)}g F</b></p>
+  <button class="btn" style="width:100%" data-act="qadd">${t('add')}</button>`};
+  foodPick={get q(){return q},set q(v){q=v},get m(){return m},set m(v){m=v},f,draw};
+  draw();$('#sheet').classList.add('open');
+}
+let foodPick=null;
+
+/* ============ EVENTS ============ */
+document.addEventListener('click',ev=>{
+  const el=ev.target.closest('[data-act]');
+  if(!el){if(ev.target.id==='sheet')closeSheet();return}
+  const a=el.dataset.act;
+  switch(a){
+  case 'go':view=el.dataset.v;try{history.replaceState(null,'','#'+view)}catch(e){location.hash=view}render();scrollTo(0,0);break;
+  case 'lang':S.lang=S.lang==='ar'?'en':'ar';save();render();break;
+  case 'setlang':S.lang=el.dataset.l;save();render();break;
+  case 'lvl':S.prog=el.dataset.l;save();render();break;
+  case 'ex':openEx(el.dataset.id);break;
+  case 'close':closeSheet();break;
+  case 'pp':playing=!playing;el.textContent=playing?t('play'):t('pause');break;
+  case 'done':{const P=PROG[S.prog];S.next[S.prog]=((S.next[S.prog]||0)+1)%P.days.length;(S.done=S.done||[]).push(today());save();toast(t('saved'));render();break}
+  case 'exf':exFilter=el.dataset.g;render();break;
+  case 'lset':{const w=parseFloat($('#lw').value),r=parseInt($('#lr').value);if(!(w>=0)||!(r>0))return;(S.logs[curEx.id]=S.logs[curEx.id]||[]).push({d:today(),w,r});save();$('#lhist').innerHTML=logHist(curEx.id);toast(t('added'));break}
+  case 'ldel':S.logs[curEx.id].splice(+el.dataset.i,1);save();$('#lhist').innerHTML=logHist(curEx.id);break;
+  case 'fd':{const d=new Date(foodDate+'T12:00:00');d.setDate(d.getDate()+(+el.dataset.d)*(1));foodDate=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');render();break}
+  case 'fc':foodCat=el.dataset.c;foodQ='';render();break;
+  case 'fpick':openFood(el.dataset.id);break;
+  case 'qm':foodPick.q=Math.max(.5,foodPick.q-.5);foodPick.draw();break;
+  case 'qp':foodPick.q=foodPick.q+.5;foodPick.draw();break;
+  case 'qmeal':foodPick.m=el.dataset.m;foodPick.draw();break;
+  case 'qadd':(S.food[foodDate]=S.food[foodDate]||[]).push({id:foodPick.f.id,q:foodPick.q,m:foodPick.m});save();toast(t('added'));closeSheet();break;
+  case 'fdel':S.food[foodDate].splice(+el.dataset.i,1);save();render();break;
+  case 'csave':{const n=$('#cn').value.trim(),k=parseFloat($('#ck').value);if(!n||!(k>=0))return;
+    const s=$('#cs').value.trim()||'1';(S.custom=S.custom||[]).push({id:'c_'+Date.now(),c:'mine',n:{ar:n,en:n},s:{ar:s,en:s},k,p:+$('#cp').value||0,cb:+$('#cc').value||0,f:+$('#cf').value||0});
+    save();foodCat='mine';toast(t('saved'));render();break}
+  case 'psave':{const p={sex:$('#psex').value,age:+$('#page').value,h:+$('#ph').value,w:+$('#pw').value,act:+$('#pact').value,goal:$('#pgoal').value};
+    if(!(p.age>10&&p.h>100&&p.w>30))return;S.profile=p;save();toast(t('saved'));render();break}
+  case 'copy':{const txt=JSON.stringify(S);const done=()=>toast(t('copied'));try{navigator.clipboard.writeText(txt).then(done,()=>{$('#impx').value=txt;$('#impx').select()})}catch(e){$('#impx').value=txt;$('#impx').select()}break}
+  case 'imp':try{const o=JSON.parse($('#impx').value);if(o&&typeof o==='object'){S=Object.assign(S,o);save();toast(t('saved'));render()}}catch(e){toast('✕ JSON')}break;
+  case 'reset':if(!resetArm){resetArm=true;render();setTimeout(()=>{resetArm=false},4000)}else{S={lang:S.lang,prog:'beg',next:{beg:0,int:0,adv:0},done:[],profile:null,logs:{},food:{},custom:[]};resetArm=false;save();render()}break;
+  }
+});
+document.addEventListener('input',ev=>{
+  const k=ev.target.dataset&&ev.target.dataset.in;
+  if(k==='exq'){exQ=ev.target.value;render()}
+  if(k==='fq'){foodQ=ev.target.value;render()}
+});
+window.gpBack=function(){ // Android back button
+  if($('#sheet').classList.contains('open')){closeSheet();return true}
+  if(view!=='home'){view='home';render();scrollTo(0,0);return true}
+  return false;
+};
+window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(VIEWS.includes(v)&&v!==view){view=v;render()}});
+render();
+</script>
+</body>
+</html>
