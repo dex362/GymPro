@@ -115,7 +115,7 @@ install:'تثبيته على أندرويد',instTx:'افتح اللينك في 
 foodLog:'أكل النهارده',addFood:'ضيف أكل',meal:'الوجبة',bf:'فطار',lu:'غدا',di:'عشا',sn:'سناك',serv:'الحصة',add:'ضيف',
 cat:'النوع',eg:'مصري',gulf:'خليجي/عربي',basic:'أساسيات',mine:'أكلاتي',custom:'ضيف أكلة من عندك',name:'الاسم',per:'لكل حصة',saveF:'حفظ الأكلة',
 sample:'يوم أكل نموذجي (مصري/خليجي)',scale:'عشان توصل لهدفك اضرب الكميات في',est:'القيم تقديرية لكل حصة، وبتفرق حسب طريقة الطبخ والزيت.',
-nTips:'قواعد الأكل الذهبية',empty:'لسه مضفتش أكل النهارده.',working:'العضلة الشغالة',prev:'‹',nextD:'›',copied:'اتنسخ ✓',saved:'اتحفظ ✓',added:'اتضاف ✓',
+nTips:'قواعد الأكل الذهبية',empty:'لسه مضفتش أكل النهارده.',working:'العضلة الشغالة',rot:'اسحب بصباعك عشان تلف المجسم 360°',prev:'‹',nextD:'›',copied:'اتنسخ ✓',saved:'اتحفظ ✓',added:'اتضاف ✓',
 weekly:'نصيحة: ابدأ ببرنامج المبتدئ ٨–١٢ أسبوع حتى لو رفعت قبل كده، وركّز على التكنيك.',days:'أيام'},
 en:{home:'Home',programs:'Programs',exercises:'Exercises',food:'Nutrition',profile:'Me',
 hello:"Let's go 💪",nextW:'Your next workout',startW:'Open workout',doneW:'Workout done ✓',weekW:'Workouts this week',
@@ -139,7 +139,7 @@ install:'Install on Android',instTx:'Open the link in Chrome → tap ⋮ → "Ad
 foodLog:"Today's food",addFood:'Add food',meal:'Meal',bf:'Breakfast',lu:'Lunch',di:'Dinner',sn:'Snack',serv:'Serving',add:'Add',
 cat:'Type',eg:'Egyptian',gulf:'Gulf/Arabic',basic:'Basics',mine:'My foods',custom:'Add your own food',name:'Name',per:'per serving',saveF:'Save food',
 sample:'Sample day (Egyptian/Gulf)',scale:'To hit your target, multiply portions by',est:'Values are estimates per serving and vary with cooking method and oil.',
-nTips:'Golden nutrition rules',empty:'No food logged today yet.',working:'working muscle',prev:'‹',nextD:'›',copied:'Copied ✓',saved:'Saved ✓',added:'Added ✓',
+nTips:'Golden nutrition rules',empty:'No food logged today yet.',working:'working muscle',rot:'Drag to rotate the 3D model 360°',prev:'‹',nextD:'›',copied:'Copied ✓',saved:'Saved ✓',added:'Added ✓',
 weekly:'Tip: run the beginner program for 8–12 weeks even if you have lifted before, and focus on technique.',days:'days'}
 };
 const t=k=>(T[S.lang]||T.ar)[k]??k;
@@ -248,7 +248,7 @@ const EX=[
  a:B(['ارفع لحد ٩٠° من الجسم (مستوى الكتف) — مش أعلى.','الدراع قدام الجسم بـ ١٥–٣٠° (Scapular plane) أريح للكتف.'],['Raise to 90° from your body (shoulder height) — no higher.','Arms 15–30° in front of your body (scapular plane) is easier on the shoulder.']),
  x:B(['وزن تقيل وتطويح بالجسم.','الترابيس يطلع (Shrug).'],['Too heavy, swinging the body.','Shrugging with the traps.']),
  p:B(['وزن خفيف وعدات عالية ١٢–٢٠ بيدي نتيجة أحسن.','الكيبل بيدّي شد ثابت — جرّبه.'],['Light weight, high reps (12–20) works best.','Cables give constant tension — try them.']),
- pose:null},
+ pose:{A:{a:[100,185],h:[100,91],t:5,ho:[2,62]},abd:[6,85],show:['abd'],eq:{db:1}}},
 {id:'curl',g:'arms',q:'dumbbell bicep curl form',n:B('بايسبس كيرل','Biceps Curl'),m:B('البايسبس، البراكياليس','Biceps, brachialis'),
  s:B(['اقف والدمبل جنبك وكف الإيد لقدام.','الكوع ثابت جنب جسمك.','ارفع الدمبل لحد الكتف واعصر.','انزل للآخر في ٢–٣ ثواني.'],['Stand with dumbbells at your sides, palms forward.','Keep elbows pinned at your sides.','Curl up to your shoulders and squeeze.','Lower all the way in 2–3 seconds.']),
  a:B(['من ١٨٠° (دراع مفرود) لحد ≈ ٣٥–٤٥°.','الكوع ميتحركش لقدام أكتر من سنة.'],['From 180° (straight arm) to ≈ 35–45°.','Elbows barely move forward.']),
@@ -316,7 +316,10 @@ function poseAt(pose,k){
   const sA=solveSh(A),sB=solveSh(Bp);
   const hA=A.hd||[sA[0]+A.ho[0],sA[1]+A.ho[1]],hB=Bp.hd||[sB[0]+Bp.ho[0],sB[1]+Bp.ho[1]];
   P.hd=lerp2(hA,hB,k);
-  return solve(P);
+  const o=solve(P);
+  if(pose.abd){const a=lerp(pose.abd[0],pose.abd[1],k),r=a*Math.PI/180;o.abd=a;
+    o.elb=[o.sh[0]+LEN.ua*.1,o.sh[1]+LEN.ua*Math.cos(r)];o.hand=[o.sh[0]+(LEN.ua+LEN.fa)*.15,o.sh[1]+(LEN.ua+LEN.fa)*Math.cos(r)*.97]}
+  return o;
 }
 function solveSh(p){const td=dirv(p.t||0);return[p.h[0]+td[0]*LEN.torso,p.h[1]+td[1]*LEN.torso]}
 function ang(j,a,b){const v1=[a[0]-j[0],a[1]-j[1]],v2=[b[0]-j[0],b[1]-j[1]];const c=(v1[0]*v2[0]+v1[1]*v2[1])/(Math.hypot(...v1)*Math.hypot(...v2));return Math.acos(Math.max(-1,Math.min(1,c)))*180/Math.PI}
@@ -337,7 +340,7 @@ function plate(p){return `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}
 const SK='#d9a77c',SKD='#a97d58',SHIRT='#2f6fed',SHIRTD='#2559c4',SHORTS='#465066',SHOE='#0b0c10',HAIR='#2a1d14',HLC='#ff3b3b';
 const HL={squat:['thigh','glute'],rdl:['thigh','glute'],deadlift:['thigh','glute','back'],lunge:['thigh','glute'],hipthrust:['glute','thigh'],legext:['thigh'],calf:['shin'],
  bench:['chest','ua'],incline:['chest','shoulder'],pushup:['chest','ua'],dips:['chest','ua'],pullup:['back','ua'],row:['back','shoulder'],cablerow:['back','ua'],
- facepull:['shoulder'],ohp:['shoulder','ua'],curl:['ua'],hammer:['ua','fa'],pushdown:['ua'],plank:['abs'],kneeraise:['abs','thigh']};
+ facepull:['shoulder'],lateral:['shoulder'],ohp:['shoulder','ua'],curl:['ua'],hammer:['ua','fa'],pushdown:['ua'],plank:['abs'],kneeraise:['abs','thigh']};
 const f1=v=>v.toFixed(1);
 function cap(a,b,ra,rb,fill,op){const dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1,px=-dy/l,py=dx/l;
  return `<g fill="${fill}"${op!=null?` opacity="${op.toFixed(2)}"`:''}><path d="M${f1(a[0]+px*ra)},${f1(a[1]+py*ra)} L${f1(b[0]+px*rb)},${f1(b[1]+py*rb)} L${f1(b[0]-px*rb)},${f1(b[1]-py*rb)} L${f1(a[0]-px*ra)},${f1(a[1]-py*ra)}Z"/><circle cx="${f1(a[0])}" cy="${f1(a[1])}" r="${ra}"/><circle cx="${f1(b[0])}" cy="${f1(b[1])}" r="${rb}"/></g>`}
@@ -393,6 +396,161 @@ function drawFig(ex,k,showAng){
     if(v)s+=arc(v[0],v[1],v[2],14,r0(ang(...v))+'°');
   });
   return `<svg viewBox="0 -42 240 254" xmlns="http://www.w3.org/2000/svg">${s}</svg>`;
+}
+
+
+/* ============ 3D ENGINE (WebGL, offline) ============ */
+const G3={ok:null,yaw:32,pitch:10,scale:.85,ft:[]};
+const v3={add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],mul:(a,s)=>[a[0]*s,a[1]*s,a[2]*s],
+ dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],len:a=>Math.hypot(a[0],a[1],a[2]),cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]};
+v3.norm=a=>v3.mul(a,1/(v3.len(a)||1));v3.mix=(a,b,k)=>v3.add(a,v3.mul(v3.sub(b,a),k));
+const ang3=(j,a,b)=>{const u=v3.norm(v3.sub(a,j)),w=v3.norm(v3.sub(b,j));return Math.acos(Math.max(-1,Math.min(1,v3.dot(u,w))))*180/Math.PI};
+const FS3=`#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+#define MAXS 40
+uniform vec2 uRes;uniform vec3 uRo,uFw,uRt,uUp;uniform float uTan,uFloor;uniform vec4 uBS;
+uniform vec4 uA[MAXS],uB[MAXS],uC[MAXS];uniform int uN;
+float sdSeg(vec3 p,vec4 a,vec4 b){vec3 pa=p-a.xyz,ba=b.xyz-a.xyz;float bb=dot(ba,ba);float h=bb>0.0001?clamp(dot(pa,ba)/bb,0.0,1.0):0.0;return length(pa-ba*h)-mix(a.w,abs(b.w),h);}
+float sdCyl(vec3 p,vec4 a,vec4 b){vec3 ba=b.xyz-a.xyz,pa=p-a.xyz;float baba=dot(ba,ba),paba=dot(pa,ba);
+ float x=length(pa*baba-ba*paba)-a.w*baba;float y=abs(paba-baba*0.5)-baba*0.5;float x2=x*x,y2=y*y*baba;
+ float d=(max(x,y)<0.0)?-min(x2,y2):(((x>0.0)?x2:0.0)+((y>0.0)?y2:0.0));return sign(d)*sqrt(abs(d))/baba;}
+float smin(float a,float b,float k){float h=clamp(0.5+0.5*(b-a)/k,0.0,1.0);return mix(b,a,h)-k*h*(1.0-h);}
+float prim(vec3 p,int i){return 0.0;}
+float mapB(vec3 p){float dB=1e5,dE=1e5;
+ for(int i=0;i<MAXS;i++){if(i>=uN)break;vec4 a=uA[i],b=uB[i];float d=(b.w<0.0)?sdCyl(p,a,b):sdSeg(p,a,b);
+  if(uC[i].a<1.5)dB=smin(dB,d,2.2);else dE=min(dE,d);}
+ return min(dB,dE);}
+vec4 mapC(vec3 p){float best=1e5;vec4 c=vec4(0.0);
+ for(int i=0;i<MAXS;i++){if(i>=uN)break;vec4 a=uA[i],b=uB[i];float d=(b.w<0.0)?sdCyl(p,a,b):sdSeg(p,a,b);if(d<best){best=d;c=uC[i];}}
+ return c;}
+vec2 sph(vec3 ro,vec3 rd){vec3 oc=ro-uBS.xyz;float b=dot(oc,rd),c=dot(oc,oc)-uBS.w*uBS.w,h=b*b-c;if(h<0.0)return vec2(-1.0);h=sqrt(h);return vec2(-b-h,-b+h);}
+vec3 nrm(vec3 p){vec2 e=vec2(0.25,-0.25);return normalize(e.xyy*mapB(p+e.xyy)+e.yyx*mapB(p+e.yyx)+e.yxy*mapB(p+e.yxy)+e.xxx*mapB(p+e.xxx));}
+float shadow(vec3 ro,vec3 rd){vec2 bs=sph(ro,rd);if(bs.y<0.0)return 1.0;float t=max(bs.x,0.5),r=1.0;
+ for(int i=0;i<22;i++){float h=mapB(ro+rd*t);r=min(r,10.0*h/t);t+=clamp(h,1.0,14.0);if(r<0.02||t>bs.y)break;}return clamp(r,0.0,1.0);}
+float ao(vec3 p,vec3 n){float o=0.0,s=1.0;for(int i=1;i<5;i++){float h=2.5*float(i);o+=(h-mapB(p+n*h))*s;s*=0.6;}return clamp(1.0-o*0.06,0.0,1.0);}
+void main(){vec2 uv=(gl_FragCoord.xy*2.0-uRes)/uRes.y;vec3 rd=normalize(uFw+uv.x*uTan*uRt+uv.y*uTan*uUp),ro=uRo;
+ vec3 bg=mix(vec3(0.07,0.078,0.095),vec3(0.13,0.145,0.18),uv.y*0.5+0.5);vec3 col=bg;
+ vec3 L=normalize(vec3(0.5,0.85,0.6));
+ float tf=(rd.y<0.0)?(uFloor-ro.y)/rd.y:1e9;
+ vec2 bs=sph(ro,rd);float t=-1.0;
+ if(bs.y>0.0){float tt=max(bs.x,0.0);for(int i=0;i<96;i++){float d=mapB(ro+rd*tt);if(d<0.04){t=tt;break;}tt+=d*0.92;if(tt>bs.y)break;}}
+ if(t>0.0&&t<tf){vec3 p=ro+rd*t,n=nrm(p);vec4 m=mapC(p);vec3 alb=pow(m.rgb,vec3(2.2));float hl=m.a<1.5?m.a:0.0;
+  alb=mix(alb,vec3(0.95,0.05,0.04),hl*0.8);
+  float dif=clamp(dot(n,L),0.0,1.0),sh=shadow(p+n*0.3,L),oc=ao(p,n);
+  float rim=pow(1.0-clamp(dot(n,-rd),0.0,1.0),3.0);float sp=pow(clamp(dot(reflect(rd,n),L),0.0,1.0),20.0)*0.18;
+  col=alb*(1.1*dif*sh+0.28*oc*(0.6+0.4*n.y))+vec3(0.35,0.45,0.6)*rim*0.25*oc+sp*sh+vec3(0.9,0.1,0.06)*hl*0.18;
+  col=pow(col,vec3(0.4545));}
+ else if(tf<2000.0){vec3 p=ro+rd*tf;vec2 g=abs(fract(p.xz/20.0)-0.5);float ln=smoothstep(0.47,0.5,max(g.x,g.y));
+  vec3 fc=vec3(0.085,0.095,0.115)+ln*0.035;float sh=shadow(p+vec3(0.0,0.3,0.0),L);fc*=0.45+0.55*sh;
+  col=mix(fc,bg,clamp((tf-220.0)/520.0,0.0,1.0));}
+ gl_FragColor=vec4(col,1.0);}`;
+const VS3='attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
+function init3(){
+  if(G3.ok!==null)return G3.ok;
+  try{
+    const c=document.createElement('canvas');const gl=c.getContext('webgl',{antialias:false,powerPreference:'high-performance'})||c.getContext('experimental-webgl');
+    if(!gl)throw 0;
+    const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(o));return o};
+    const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS3));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS3));gl.linkProgram(pr);
+    if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(pr));
+    gl.useProgram(pr);const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+    const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+    const U={};['uRes','uRo','uFw','uRt','uUp','uTan','uFloor','uBS','uA','uB','uC','uN'].forEach(n=>U[n]=gl.getUniformLocation(pr,n));
+    Object.assign(G3,{c,gl,U,ok:true});
+    c.style.cssText='width:100%;height:100%;display:block;border-radius:12px;touch-action:none';
+    let drag=null;
+    c.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY,G3.yaw,G3.pitch];try{c.setPointerCapture(e.pointerId)}catch(_){}});
+    c.addEventListener('pointermove',e=>{if(!drag)return;G3.yaw=drag[2]-(e.clientX-drag[0])*.5;G3.pitch=Math.max(-8,Math.min(55,drag[3]+(e.clientY-drag[1])*.35));G3.dirty=true});
+    const up=()=>drag=null;c.addEventListener('pointerup',up);c.addEventListener('pointercancel',up);
+    c.addEventListener('webglcontextlost',e=>{e.preventDefault();G3.ok=false});
+  }catch(e){console.log('3D off',e&&e.message);G3.ok=false}
+  return G3.ok;
+}
+const COL={sk:[.86,.64,.48],sh:[.2,.45,.95],shd:[.16,.36,.8],so:[.33,.37,.46],shoe:[.08,.08,.1],hair:[.17,.12,.09],eq:[.62,.66,.72],pl:[.2,.22,.27],bench:[.27,.29,.35],cab:[.48,.83,1]};
+function build3(ex,k){
+  const pose=ex.pose,o=poseAt(pose,k),hl=HL[ex.id]||[],op=0.3+0.6*k,H=x=>hl.includes(x)?op:0,eq=pose.eq||{};
+  const td=dirv(o.t),sg=pose.sup?-1:1,n2=[-td[1]*sg,td[0]*sg],T3=[td[0],-td[1],0],N3=[n2[0],-n2[1],0];
+  const P=(b,a,c)=>[b[0]+T3[0]*a+N3[0]*c,b[1]+T3[1]*a+N3[1]*c,b[2]];
+  const to3=(p,z)=>[p[0],-p[1],z];const S=[],J={};
+  const seg=(a,b,r1,r2,c,h)=>S.push([a,b,r1,r2,c,h||0]);
+  const cyl=(a,b,r,c)=>S.push([a,b,r,-1,c,2]);
+  const WH=6.5,WS=11,WF=7;
+  const legs=[[o.knee,o.ank,o.toe,1],o.knee2?[o.knee2,o.ank2,o.toe2,-1]:[o.knee,o.ank,o.toe,-1]];
+  legs.forEach(([kn,an,to,s])=>{const Hp=to3(o.hip,s*WH),K=to3(kn,s*WH),A=to3(an,s*WF),T=to3(to,s*WF),m=v3.mix(Hp,K,.55);
+    seg(Hp,m,8.4,7.4,COL.so,H('thigh')*.35);seg(m,K,7.2,5.6,COL.sk,H('thigh'));seg(K,A,5.6,3.9,COL.sk,H('shin'));seg(A,T,4.1,3.5,COL.shoe,0);
+    if(s>0){J.hip=Hp;J.knee=K;J.ank=A}});
+  const hc=to3(o.hip,0),sc=to3(o.sh,0);
+  seg([hc[0],hc[1],-WH],[hc[0],hc[1],WH],9,9,COL.so,H('glute'));
+  seg(P(hc,4,.5),P(hc,LEN.torso*.5,1),9.6,10.2,COL.sh,H('abs'));
+  const ch=P(hc,LEN.torso*.73,3.2);seg([ch[0],ch[1],-5.5],[ch[0],ch[1],5.5],8.8,8.8,COL.sh,H('chest'));
+  const bk=P(hc,LEN.torso*.66,-2.6);seg([bk[0],bk[1],-6],[bk[0],bk[1],6],9.2,9.2,COL.sh,H('back'));
+  seg([sc[0],sc[1],-WS+3],[sc[0],sc[1],WS-3],6.4,6.4,COL.sh,0);
+  seg(sc,P(sc,9,1.2),4.6,4.1,COL.sk,0);
+  const hd=P(sc,17.5,2);seg(hd,hd,9,9,COL.sk,0);const hh=P(hd,1.8,-2.2);seg(hh,hh,9.2,9.2,COL.hair,0);
+  J.sh=[sc[0],sc[1],WS];J.hipC=hc;J.shC=sc;
+  [1,-1].forEach(s=>{const Sh=[sc[0],sc[1],s*WS];let E,Hd;
+    if(o.abd!=null){const a=o.abd*Math.PI/180,d=v3.norm([.12,-Math.cos(a),s*Math.sin(a)]);E=v3.add(Sh,v3.mul(d,LEN.ua));Hd=v3.add(E,v3.mul(v3.norm([d[0]+.12,d[1]+.12,d[2]]),LEN.fa))}
+    else{E=to3(o.elb,s*(WS+1.5));Hd=to3(o.hand,s*(WS-.5))}
+    seg(Sh,Sh,6,6,COL.sh,H('shoulder'));const m=v3.mix(Sh,E,.42);
+    seg(Sh,m,5.5,4.9,COL.shd,H('ua')*.35);seg(m,E,4.7,3.9,COL.sk,H('ua'));seg(E,Hd,3.9,3.1,COL.sk,H('fa'));seg(Hd,Hd,3.7,3.7,COL.sk,0);
+    if(s>0){J.elb=E;J.hand=Hd}J['h'+s]=Hd;});
+  // equipment
+  const bar=c=>{seg([c[0],c[1],-64],[c[0],c[1],64],1.6,1.6,COL.eq,2);cyl([c[0],c[1],44],[c[0],c[1],54],20,COL.pl);cyl([c[0],c[1],-54],[c[0],c[1],-44],20,COL.pl)};
+  if(eq.bar==='hand')bar(to3(o.hand,0));
+  if(eq.bar==='shoulder')bar(to3([o.sh[0]-3,o.sh[1]-3],0));
+  if(eq.bar==='hip')bar(to3([o.hip[0]-2,o.hip[1]-16],0));
+  if(eq.db)[J.h1,J['h-1']].forEach(h=>{const ax=o.abd!=null?[1,0,0]:[0,0,1];
+    seg(v3.add(h,v3.mul(ax,-6)),v3.add(h,v3.mul(ax,6)),1.5,1.5,COL.eq,2);cyl(v3.add(h,v3.mul(ax,5)),v3.add(h,v3.mul(ax,9)),6,COL.pl);cyl(v3.add(h,v3.mul(ax,-9)),v3.add(h,v3.mul(ax,-5)),6,COL.pl)});
+  if(eq.bench){const[x1,y1,x2,y2]=eq.bench;[-8,0,8].forEach(z=>seg(to3([x1,y1],z),to3([x2,y2],z),4.6,4.6,COL.bench,2));const mx=(x1+x2)/2,my=(y1+y2)/2;if(my<180)seg(to3([mx,my],0),to3([mx,187],0),2.6,2.6,COL.eq,2)}
+  if(eq.pull!=null){const x=o.hand[0];seg([x,-eq.pull,-70],[x,-eq.pull,70],2,2,COL.eq,2)}
+  if(eq.dip)[1,-1].forEach(s=>{const z=s*(WS+3);seg([eq.dip[0]-24,-eq.dip[1],z],[eq.dip[0]+24,-eq.dip[1],z],2.3,2.3,COL.eq,2);seg([eq.dip[0]+20,-eq.dip[1],z],[eq.dip[0]+20,-215,z],2,2,COL.eq,2)});
+  if(eq.cable){const a=[eq.cable[0],-eq.cable[1],0],m=v3.mix(J.h1,J['h-1'],.5);seg(m,a,.8,.8,COL.cab,2);seg(a,a,4,4,COL.eq,2)}
+  if(eq.pad){const a=to3(o.ank,0);seg([a[0],a[1]+6,-9],[a[0],a[1]+6,9],5,5,COL.bench,2)}
+  return{S,J,o,floor:pose.nofloor?-262:-187};
+}
+function bounds3(ex){ // stable framing per exercise
+  if(ex._b)return ex._b;let mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9];
+  for(const k of [0,.5,1]){const{S}=build3(ex,k);S.forEach(([a,b,r1,r2])=>[a,b].forEach(p=>{const r=Math.max(r1,Math.abs(r2));for(let i=0;i<3;i++){mn[i]=Math.min(mn[i],p[i]-r);mx[i]=Math.max(mx[i],p[i]+r)}}))}
+  const c=v3.mul(v3.add(mn,mx),.5),rad=v3.len(v3.sub(mx,mn))/2+4;
+  return ex._b={c,rad,h:mx[1]-mn[1],w:Math.max(mx[0]-mn[0],mx[2]-mn[2])};
+}
+function cam3(b,W,Hh){
+  const fov=36*Math.PI/180,tn=Math.tan(fov/2),size=Math.max(b.h*.57,b.w*.56)+14,D=size/tn;
+  const y=G3.yaw*Math.PI/180,p=G3.pitch*Math.PI/180,tg=[b.c[0],b.c[1]-4,0];
+  const ro=v3.add(tg,[Math.sin(y)*Math.cos(p)*D,Math.sin(p)*D,Math.cos(y)*Math.cos(p)*D]);
+  const fw=v3.norm(v3.sub(tg,ro)),rt=v3.norm(v3.cross(fw,[0,1,0])),up=v3.cross(rt,fw);
+  return{ro,fw,rt,up,tn};
+}
+function proj3(c,p,W,Hh){const v=v3.sub(p,c.ro),z=v3.dot(v,c.fw);return[W/2+v3.dot(v,c.rt)/(z*c.tn)*Hh/2,Hh/2-v3.dot(v,c.up)/(z*c.tn)*Hh/2]}
+function draw3(ex,k,box){
+  const {gl,U,c}=G3;
+  if(c.parentNode!==box){box.innerHTML='';const wrap=document.createElement('div');wrap.style.cssText='position:relative;width:100%;aspect-ratio:1/1.05';wrap.appendChild(c);
+    const ov=document.createElementNS('http://www.w3.org/2000/svg','svg');ov.id='ov3';ov.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;direction:ltr';wrap.appendChild(ov);box.appendChild(wrap)}
+  const cw=c.clientWidth||300,ch=c.clientHeight||315;
+  const W=Math.max(120,Math.round(cw*G3.scale)),Hh=Math.max(120,Math.round(ch*G3.scale));
+  if(c.width!==W||c.height!==Hh){c.width=W;c.height=Hh}
+  const t0=performance.now();
+  const sc=build3(ex,k),b=bounds3(ex),cm=cam3(b,W,Hh);
+  const A=new Float32Array(160),Bq=new Float32Array(160),C=new Float32Array(160);
+  sc.S.slice(0,40).forEach(([a,bb,r1,r2,col,h],i)=>{A.set([a[0],a[1],a[2],r1],i*4);Bq.set([bb[0],bb[1],bb[2],r2],i*4);C.set([col[0],col[1],col[2],h],i*4)});
+  gl.viewport(0,0,W,Hh);
+  gl.uniform2f(U.uRes,W,Hh);gl.uniform3fv(U.uRo,cm.ro);gl.uniform3fv(U.uFw,cm.fw);gl.uniform3fv(U.uRt,cm.rt);gl.uniform3fv(U.uUp,cm.up);
+  gl.uniform1f(U.uTan,cm.tn);gl.uniform1f(U.uFloor,sc.floor);gl.uniform4f(U.uBS,b.c[0],b.c[1],b.c[2],b.rad);
+  gl.uniform4fv(U.uA,A);gl.uniform4fv(U.uB,Bq);gl.uniform4fv(U.uC,C);gl.uniform1i(U.uN,Math.min(40,sc.S.length));
+  gl.drawArrays(gl.TRIANGLES,0,3);
+  // angle labels (screen space)
+  const J=sc.J,pj=p=>{const q=proj3(cm,p,W,Hh);return[q[0]*cw/W,q[1]*ch/Hh]};let s='';
+  (ex.pose.show||[]).forEach(j=>{let v;
+    if(j==='knee')v=[J.knee,J.hip,J.ank];else if(j==='hip')v=[J.hip,J.knee,v3.add(J.shC,[0,0,6.5])];else if(j==='elbow')v=[J.elb,J.sh,J.hand];
+    else if(j==='abd')v=[J.sh,v3.add(J.sh,v3.sub(J.hipC,J.shC)),J.hand];
+    if(v&&v[0]&&v[1]&&v[2])s+=arc(pj(v[0]),pj(v[1]),pj(v[2]),16,r0(ang3(...v))+'°')});
+  const ov=document.getElementById('ov3');if(ov){ov.setAttribute('viewBox',`0 0 ${cw} ${ch}`);ov.innerHTML=s}
+  // adaptive quality
+  gl.finish&&0;const dt=performance.now()-t0;G3.ft.push(dt);if(G3.ft.length>20){const avg=G3.ft.reduce((a,b)=>a+b)/G3.ft.length;G3.ft=[];
+    if(avg>30&&G3.scale>.45)G3.scale*=.85;else if(avg<10&&G3.scale<1)G3.scale=Math.min(1,G3.scale*1.1)}
 }
 
 /* ============ PROGRAMS ============ */
@@ -603,7 +761,7 @@ function openEx(id){
   const e=curEx;
   const logs=(S.logs[id]||[]);
   $('#pan').innerHTML=`<div class="row between" style="margin-bottom:8px"><div><h2 style="margin:0">${L(e.n)}</h2><span class="tag">${t(e.g)}</span></div><button class="x" data-act="close">✕</button></div>
-  ${e.pose?`<div class="fig"><div id="figbox">${drawFig(e,0,true)}</div><div class="row between" style="padding:4px 8px 6px"><span class="mut"><span id="phl">${t('start')}</span> · <span style="color:#ff3b3b">●</span> ${t('working')}</span><button class="btn sec sm" data-act="pp" id="ppb">${t('play')}</button></div></div>`:`<div class="card mut">${t('noFig')}</div>`}
+  ${e.pose?`<div class="fig"><div id="figbox">${drawFig(e,0,true)}</div><div class="row between" style="padding:4px 8px 6px"><span class="mut"><span id="phl">${t('start')}</span> · <span style="color:#ff3b3b">●</span> ${t('working')}</span><button class="btn sec sm" data-act="pp" id="ppb">${t('play')}</button></div>${G3.ok!==false?`<div class="mut" style="font-size:12px;padding:0 8px 6px">👆 ${t('rot')}</div>`:''}</div>`:`<div class="card mut">${t('noFig')}</div>`}
   <p style="margin:10px 0 4px"><b>${t('muscles')}:</b> ${esc(L(e.m))}</p>
   <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(e.q)}" target="_blank" rel="noopener">${t('video')}</a>
   ${[['s','stepsH','🧭'],['a','anglesH','📐'],['x','mistH','❌'],['p','proH','🏆']].map(([k,lb,ic])=>`<h3>${ic} ${t(lb)}</h3><ul class="b">${L(e[k]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}
@@ -633,7 +791,7 @@ function tick(ts){
   // 0-.35 go, .35-.5 hold, .5-.85 back, .85-1 hold
   let k=phase<.35?phase/.35:phase<.5?1:phase<.85?1-(phase-.5)/.35:0;
   k=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
-  const fb=$('#figbox');if(fb)fb.innerHTML=drawFig(curEx,k,true);
+  const fb=$('#figbox');if(fb){if(init3()){try{draw3(curEx,k,fb)}catch(err){console.log(err);G3.ok=false;fb.innerHTML=drawFig(curEx,k,true)}}else fb.innerHTML=drawFig(curEx,k,true)}
   const pl=$('#phl');if(pl)pl.textContent=k>.98?t('end'):k<.02?t('start'):'…';
   anim=requestAnimationFrame(tick);
 }
